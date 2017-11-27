@@ -2,7 +2,6 @@
 
 var map = document.querySelector('.map');
 var mapPin = document.querySelector('.map__pin');
-var avatar = document.querySelector('.map__pin img');
 var houses = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -32,11 +31,12 @@ var placeFeatures = [
   'conditioner'
 ];
 
-var getRandomArrayWord = function (array) {
-  return array[getRandomArrayIndex(array)];
-};
 var getRandomArrayIndex = function (array) {
   return Math.floor(Math.random() * array.length);
+};
+
+var getRandomArrayWord = function (array) {
+  return array[getRandomArrayIndex(array)];
 };
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -44,12 +44,26 @@ var getRandomNumber = function (min, max) {
 
 var ads = [];
 var placeFeaturesLength = placeFeatures.length;
-var elementsNumber = getRandomNumber(0, placeFeaturesLength - 1);
+var getElementsNumber = function () {
+  return getRandomNumber(0, placeFeaturesLength);
+};
+
+var getRandomFeatures = function () {
+  var randomNumber = getElementsNumber();
+  var features = [];
+  while (features.length < randomNumber) {
+    var randomElement = getRandomArrayWord(placeFeatures);
+    if (features.includes(randomElement) === false) {
+      features.push(randomElement);
+    }
+  }
+  return features;
+};
 
 for (var i = 0; i <= 8; ++i) {
   ads[ads.length] = {
     'author': {
-      'avatar': 'img/avatars/user{{' + 0 + i + '}}.png'
+      'avatar': 'img/avatars/user' + 0 + i + '.png'
     },
 
     'offer': {
@@ -61,7 +75,7 @@ for (var i = 0; i <= 8; ++i) {
       'guests': getRandomNumber(1, 100),
       'checkin': getRandomArrayWord(times),
       'checkout': getRandomArrayWord(times),
-      'features': [],
+      'features': getRandomFeatures(),
       'description': '',
       'photos': [],
     },
@@ -73,20 +87,16 @@ for (var i = 0; i <= 8; ++i) {
   };
 }
 
-for (var j = 0; j < placeFeaturesLength; j++) {
-  while (ads.offer.features.length < elementsNumber) {
-    ads.offer.features[j] = placeFeatures[j];
-  }
-}
-
 map.classList.remove('map--faded');
 
-avatar.removeAttribute('src');
-avatar.setAttribute('src', ads.author.avatar);
-avatar.setAttribute('width', '40');
-avatar.setAttribute('height', '40');
-avatar.setAttribute('draggable', 'false');
-mapPin.setAttribute('style', 'left: ' + (ads.location.x - 20) + 'px; top: ' + (ads.location.y - 40) + 'px;');
+for (var x = 0; x < ads.length; x++) {
+  var avatar = document.querySelector('.map__pin img');
+  avatar.src = ads[x].author.avatar;
+  avatar.width = 40;
+  avatar.height = 40;
+  avatar.draggable = false;
+  mapPin.style = 'left: ' + (ads[x].location.x - 20) + 'px; top: ' + (ads[x].location.y - 40) + 'px;';
+}
 
 var setupListElement = document.querySelector('.map__pins');
 var renderPin = function () {
