@@ -1,6 +1,8 @@
 'use strict';
 
 var map = document.querySelector('.map');
+var mapPin = document.querySelector('.map__pin');
+var avatar = document.querySelector('.map__pin img');
 var houses = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -43,11 +45,6 @@ var getRandomNumber = function (min, max) {
 var ads = [];
 var placeFeaturesLength = placeFeatures.length;
 var elementsNumber = getRandomNumber(0, placeFeaturesLength - 1);
-for (var j = 0; j < placeFeaturesLength; j++) {
-  while (ads.offer.features.length < elementsNumber) {
-    ads.offer.features[j] = placeFeatures[j];
-  }
-}
 
 for (var i = 0; i <= 8; ++i) {
   ads[ads.length] = {
@@ -61,7 +58,7 @@ for (var i = 0; i <= 8; ++i) {
       'price': getRandomNumber(1000, 1000000),
       'type': getRandomArrayWord(houseTypes),
       'rooms': getRandomNumber(1, 5),
-      'guests': getRandomNumber(1, Infinity),
+      'guests': getRandomNumber(1, 100),
       'checkin': getRandomArrayWord(times),
       'checkout': getRandomArrayWord(times),
       'features': [],
@@ -76,4 +73,30 @@ for (var i = 0; i <= 8; ++i) {
   };
 }
 
+for (var j = 0; j < placeFeaturesLength; j++) {
+  while (ads.offer.features.length < elementsNumber) {
+    ads.offer.features[j] = placeFeatures[j];
+  }
+}
+
 map.classList.remove('map--faded');
+
+avatar.removeAttribute('src');
+avatar.setAttribute('src', ads.author.avatar);
+avatar.setAttribute('width', '40');
+avatar.setAttribute('height', '40');
+avatar.setAttribute('draggable', 'false');
+mapPin.setAttribute('style', 'left: ' + (ads.location.x - 20) + 'px; top: ' + (ads.location.y - 40) + 'px;');
+
+var setupListElement = document.querySelector('.map__pins');
+var renderPin = function () {
+  var pinElement = mapPin.cloneNode(true);
+  return pinElement;
+};
+
+var fragment = document.createDocumentFragment();
+for (var y = 0; y < ads.length; y++) {
+  fragment.appendChild(renderPin());
+}
+
+setupListElement.appendChild(fragment);
