@@ -63,7 +63,7 @@ var getRandomFeatures = function () {
 for (var i = 0; i <= 8; ++i) {
   ads[ads.length] = {
     'author': {
-      'avatar': 'img/avatars/user' + 0 + i + '.png'
+      'avatar': 'img/avatars/user' + 0 + i + '.png',
     },
 
     'offer': {
@@ -89,24 +89,22 @@ for (var i = 0; i <= 8; ++i) {
 
 map.classList.remove('map--faded');
 
-for (var x = 0; x < ads.length; x++) {
-  var avatar = document.querySelector('.map__pin img');
-  avatar.src = ads[x].author.avatar;
-  avatar.width = 40;
-  avatar.height = 40;
-  avatar.draggable = false;
-  mapPin.style = 'left: ' + (ads[x].location.x - 20) + 'px; top: ' + (ads[x].location.y - 40) + 'px;';
-}
-
 var setupListElement = document.querySelector('.map__pins');
-var renderPin = function () {
+var renderPin = function (arrayElement) {
   var pinElement = mapPin.cloneNode(true);
+
+  pinElement.querySelector('img').src = arrayElement.author.avatar;
+  pinElement.querySelector('img').width = 40;
+  pinElement.querySelector('img').height = 40;
+  pinElement.querySelector('img').draggable = false;
+  pinElement.querySelector('img').style = 'left: ' + (arrayElement.location.x - 20) + 'px; top: ' + (arrayElement.location.y - 40) + 'px;';
+
   return pinElement;
 };
 
 var fragment = document.createDocumentFragment();
 for (var y = 0; y < ads.length; y++) {
-  fragment.appendChild(renderPin());
+  fragment.appendChild(renderPin(ads[y]));
 }
 
 setupListElement.appendChild(fragment);
