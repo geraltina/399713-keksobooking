@@ -64,7 +64,7 @@ var getRandomFeatures = function () { // random features for ads.offer.features 
 var ads = [];
 
 for (var i = 1; i <= 8; ++i) {
-  var location = {
+  var locationObject = {
     'x': getRandomNumber(300, 900),
     'y': getRandomNumber(100, 500),
   };
@@ -76,7 +76,7 @@ for (var i = 1; i <= 8; ++i) {
 
     'offer': {
       'title': getRandomArrayWord(houses),
-      'address': location.x + ', ' + location.y,
+      'address': locationObject.x + ', ' + locationObject.y,
       'price': getRandomNumber(1000, 1000000),
       'type': getRandomArrayWord(houseTypes),
       'rooms': getRandomNumber(1, 5),
@@ -88,26 +88,28 @@ for (var i = 1; i <= 8; ++i) {
       'photos': [],
     },
 
-    'location': location
+    'location': locationObject
   };
 }
 
 map.classList.remove('map--faded'); // shows map with ads
 
 /* Function for rendering pins with certain attributes on map*/
-var mapPin = document.querySelector('.map__pin');
-mapPin.classList.remove('map__pin--main');
 var setupListElement = document.querySelector('.map__pins');
 var renderPin = function (arrayElement) {
-  var pinElement = mapPin.cloneNode(true);
+  var pinButton = document.createElement('button');
+  var pinImage = document.createElement('img');
+  setupListElement.appendChild(pinButton);
+  pinButton.appendChild(pinImage);
+  pinButton.classList.add('map__pin');
 
-  pinElement.querySelector('img').src = arrayElement.author.avatar;
-  pinElement.querySelector('img').width = 40;
-  pinElement.querySelector('img').height = 40;
-  pinElement.querySelector('img').draggable = false;
-  pinElement.style = 'left: ' + (arrayElement.location.x - 20) + 'px; top: ' + (arrayElement.location.y - 40) + 'px;';
+  pinImage.src = arrayElement.author.avatar;
+  pinImage.width = 40;
+  pinImage.height = 40;
+  pinImage.draggable = false;
+  pinButton.style = 'left: ' + (arrayElement.location.x - 20) + 'px; top: ' + (arrayElement.location.y - 40) + 'px;';
 
-  return pinElement;
+  return pinButton;
 };
 
 /* Fragment with pins*/
