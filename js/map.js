@@ -62,7 +62,13 @@ var getRandomFeatures = function () { // random features for ads.offer.features 
 
 /* Creating array with advertisement datas*/
 var ads = [];
+
 for (var i = 1; i <= 8; ++i) {
+  var location = {
+    'x': getRandomNumber(300, 900),
+    'y': getRandomNumber(100, 500),
+  };
+
   ads[ads.length] = {
     'author': {
       'avatar': 'img/avatars/user' + 0 + i + '.png',
@@ -70,7 +76,7 @@ for (var i = 1; i <= 8; ++i) {
 
     'offer': {
       'title': getRandomArrayWord(houses),
-      'address': '{{location.x}}, {{location.y}}',
+      'address': location.x + ', ' + location.y,
       'price': getRandomNumber(1000, 1000000),
       'type': getRandomArrayWord(houseTypes),
       'rooms': getRandomNumber(1, 5),
@@ -82,10 +88,7 @@ for (var i = 1; i <= 8; ++i) {
       'photos': [],
     },
 
-    'location': {
-      'x': getRandomNumber(300, 900),
-      'y': getRandomNumber(100, 500),
-    }
+    'location': location
   };
 }
 
@@ -109,19 +112,19 @@ var renderPin = function (arrayElement) {
 
 /* Fragment with pins*/
 var fragment = document.createDocumentFragment();
-for (var y = 0; y < ads.length; y++) {
-  fragment.appendChild(renderPin(ads[y]));
+for (var j = 0; j < ads.length; j++) {
+  fragment.appendChild(renderPin(ads[j]));
 }
 
 setupListElement.appendChild(fragment); // inserts pins in markup
 
-var mapCardTemplate = document.querySelector('template article.map__card');
+var mapCardTemplate = document.querySelector('#card-template').content.querySelector('.map__card');
 var renderMapCard = function (arrayElement) {
   var mapCard = mapCardTemplate.cloneNode(true);
 
   mapCard.querySelector('h3').textContent = arrayElement.offer.title;
   mapCard.querySelector('p small').textContent = arrayElement.offer.address;
-  mapCard.querySelector('.popup__price').textContent = arrayElement.offer.price + '&#x20bd;/ночь'
+  mapCard.querySelector('.popup__price').textContent = arrayElement.offer.price + '₽/ночь';
 
   if (arrayElement.offer.type === 'flat') { // if/else for ads.offer.type
     mapCard.querySelector('h4').textContent = 'Квартира';
@@ -131,11 +134,14 @@ var renderMapCard = function (arrayElement) {
     mapCard.querySelector('h4').textContent = 'Дом';
   }
 
-  mapCard.querySelector('.popup__rooms-guests').textContent = '{{offer.rooms}} для {{offer.guests}} гостей';
-  mapCard.querySelector('.popup__checkin-checkout').textContent = 'Заезд после {{offer.checkin}}, выезд до {{offer.checkout}}';
+  mapCard.querySelector('.popup__rooms-guests').textContent = arrayElement.offer.rooms + ' для ' + arrayElement.offer.guests + ' гостей';
+  mapCard.querySelector('.popup__checkin-checkout').textContent = 'Заезд после ' + arrayElement.offer.checkin + ', выезд до ' + arrayElement.offer.checkout;
 
-  for (var l = 0; l < ads.offer.feature.length; l++) {
-    mapCard.querySelector('.popup__features').innerHTML = '<li class="feature feature--' + ads.offer.feature[l] + '">' + ads.offer.feature[l] + '</li>';
+  for (var l = 0; l < arrayElement.offer.features.length; l++) {
+    var featuresList = mapCard.querySelector('.popup__features');
+    var featureElement = document.createElement('li');
+    featuresList.appendChild(featureElement);
+    featureElement.classList.add('feature--' + arrayElement.offer.features[l]);
   }
 
   mapCard.querySelector('.popup__description').textContent = arrayElement.offer.description;
