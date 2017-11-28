@@ -60,7 +60,7 @@ var getRandomFeatures = function () {
   return features;
 };
 
-for (var i = 0; i <= 8; ++i) {
+for (var i = 1; i <= 8; ++i) {
   ads[ads.length] = {
     'author': {
       'avatar': 'img/avatars/user' + 0 + i + '.png',
@@ -97,7 +97,7 @@ var renderPin = function (arrayElement) {
   pinElement.querySelector('img').width = 40;
   pinElement.querySelector('img').height = 40;
   pinElement.querySelector('img').draggable = false;
-  pinElement.querySelector('img').style = 'left: ' + (arrayElement.location.x - 20) + 'px; top: ' + (arrayElement.location.y - 40) + 'px;';
+  pinElement.style = 'left: ' + (arrayElement.location.x - 20) + 'px; top: ' + (arrayElement.location.y - 40) + 'px;';
 
   return pinElement;
 };
