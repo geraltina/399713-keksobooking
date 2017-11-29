@@ -120,6 +120,7 @@ for (var j = 0; j < ads.length; j++) {
 
 setupListElement.appendChild(fragment); // inserts pins in markup
 
+/* Creates card of advertisement on map*/
 var mapCardTemplate = document.querySelector('#card-template').content.querySelector('.map__card');
 var renderMapCard = function (arrayElement) {
   var mapCard = mapCardTemplate.cloneNode(true);
@@ -152,10 +153,9 @@ var renderMapCard = function (arrayElement) {
   return mapCard;
 };
 
+/* Fragment with cards*/
 var fragmentMapCard = document.createDocumentFragment();
-for (var z = 0; z < ads.length; z++) {
-  fragmentMapCard.appendChild(renderMapCard(ads[z]));
-}
+fragmentMapCard.appendChild(renderMapCard(ads[0]));
 
 var filter = map.querySelector('.map__filters-container');
-map.insertBefore(fragmentMapCard, filter);
+map.insertBefore(fragmentMapCard, filter); // inserts cards in markup
