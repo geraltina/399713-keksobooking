@@ -210,6 +210,10 @@ var clickHandler = function (evt) {
   if (evt.target !== mapPinMain) {
     if (clickedElement) {
       clickedElement.classList.remove('map__pin--active');
+      var mapCards = document.querySelectorAll('.map__card');
+      for (var m = 0; m < mapCards.length; m++) {
+        map.removeChild(mapCards[m]);
+      }
     }
 
     clickedElement = evt.target;
