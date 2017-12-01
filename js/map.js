@@ -1,8 +1,6 @@
 'use strict';
 
 // Finding map, crating arrays with initial datas
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 var map = document.querySelector('.map');
 var houses = [
   'Большая уютная квартира',
@@ -203,8 +201,8 @@ mapPinMain.addEventListener('mouseup', function () {
 });
 
 var clickedElement = null;
-var mapPin = document.querySelector('.map__pin');
-var mapCard = document.querySelector('.map__card');
+var mapPins = document.querySelectorAll('.map__pin');
+
 var fragmentMapCard = document.createDocumentFragment();
 var filter = map.querySelector('.map__filters-container');
 
@@ -221,10 +219,16 @@ var clickHandler = function (evt) {
 
     var popupClose = document.querySelector('.popup__close');
     popupClose.addEventListener('click', function () {
-      map.removeChild(mapCard);
+      var mapCards = document.querySelectorAll('.map__card');
+      for (var m = 0; m < mapCards.length; m++) {
+        map.removeChild(mapCards[m]);
+      }
     });
   } else {
     clickedElement.classList.remove('map__pin--active');
   }
 };
-mapPin.addEventListener('click', clickHandler);
+
+for (var p = 0; p < mapPins.length; p++) {
+  mapPins[p].addEventListener('click', clickHandler);
+}
