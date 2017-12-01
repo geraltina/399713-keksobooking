@@ -1,6 +1,8 @@
 'use strict';
 
-/* Finding map, crating arrays with initial datas*/
+// Finding map, crating arrays with initial datas
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var map = document.querySelector('.map');
 var houses = [
   'Большая уютная квартира',
@@ -31,7 +33,7 @@ var placeFeatures = [
   'conditioner'
 ];
 
-/* Creating functions for getting random values*/
+// Creating functions for getting random values
 var getRandomArrayIndex = function (array) { // random index
   return Math.floor(Math.random() * array.length);
 };
@@ -60,7 +62,7 @@ var getRandomFeatures = function () { // random features for ads.offer.features 
   return features;
 };
 
-/* Creating array with advertisement datas*/
+// Creating array with advertisement datas
 var ads = [];
 
 for (var i = 1; i <= 8; ++i) {
@@ -92,9 +94,7 @@ for (var i = 1; i <= 8; ++i) {
   };
 }
 
-map.classList.remove('map--faded'); // shows map with ads
-
-/* Function for rendering pins with certain attributes on map*/
+// Function for rendering pins with certain attributes on map
 var setupListElement = document.querySelector('.map__pins');
 var renderPin = function (arrayElement) {
   var pinButton = document.createElement('button');
@@ -112,7 +112,7 @@ var renderPin = function (arrayElement) {
   return pinButton;
 };
 
-/* Fragment with pins*/
+// Fragment with pins
 var fragment = document.createDocumentFragment();
 for (var j = 0; j < ads.length; j++) {
   fragment.appendChild(renderPin(ads[j]));
@@ -120,7 +120,7 @@ for (var j = 0; j < ads.length; j++) {
 
 setupListElement.appendChild(fragment); // inserts pins in markup
 
-/* Creates card of advertisement on map*/
+// Creates card of advertisement on map
 var mapCardTemplate = document.querySelector('#card-template').content.querySelector('.map__card');
 var renderMapCard = function (arrayElement) {
   var mapCard = mapCardTemplate.cloneNode(true);
@@ -153,9 +153,78 @@ var renderMapCard = function (arrayElement) {
   return mapCard;
 };
 
-/* Fragment with cards*/
-var fragmentMapCard = document.createDocumentFragment();
-fragmentMapCard.appendChild(renderMapCard(ads[0]));
+// Creating interactive part of page
+// Searching big red pin and all fieldsets of form
+// and making them disabled
+var mapPinMain = document.querySelector('.map__pin--main');
+var noticeForm = document.querySelector('.notice__form');
+var noticeHeader = noticeForm.querySelector('.notice__header');
+var formElementTitle = noticeForm.querySelector('.form__element--title');
+var formElementAddress = noticeForm.querySelector('.form__element--address');
+var formElementType = noticeForm.querySelector('.form__element--type');
+var formElementPrice = noticeForm.querySelector('.form__element--price');
+var formElementTime = noticeForm.querySelector('.form__element--time');
+var formElementRooms = noticeForm.querySelector('.form__element--rooms');
+var formElementGuests = noticeForm.querySelector('.form__element--guests');
+var formElementFeatures = noticeForm.querySelector('.form__element--features');
+var formElementDescription = noticeForm.querySelector('.form__element--description');
+var formElementPhotos = noticeForm.querySelector('.form__element--photos');
+var formElementSubmit = noticeForm.querySelector('.form__element--submit');
 
+noticeHeader.disabled = true;
+formElementTitle.disabled = true;
+formElementAddress.disabled = true;
+formElementType.disabled = true;
+formElementPrice.disabled = true;
+formElementTime.disabled = true;
+formElementRooms.disabled = true;
+formElementGuests.disabled = true;
+formElementFeatures.disabled = true;
+formElementDescription.disabled = true;
+formElementPhotos.disabled = true;
+formElementSubmit.disabled = true;
+
+// Once the big red pin is tapped - map and form are active
+mapPinMain.addEventListener('mouseup', function () {
+  map.classList.remove('map--faded'); // shows map with ads
+  noticeForm.classList.remove('notice__form--disabled'); // shows form
+  noticeHeader.disabled = false;
+  formElementTitle.disabled = false;
+  formElementAddress.disabled = false;
+  formElementType.disabled = false;
+  formElementPrice.disabled = false;
+  formElementTime.disabled = false;
+  formElementRooms.disabled = false;
+  formElementGuests.disabled = false;
+  formElementFeatures.disabled = false;
+  formElementDescription.disabled = false;
+  formElementPhotos.disabled = false;
+  formElementSubmit.disabled = false;
+});
+
+var clickedElement = null;
+var mapPin = document.querySelector('.map__pin');
+var mapCard = document.querySelector('.map__card');
+var fragmentMapCard = document.createDocumentFragment();
 var filter = map.querySelector('.map__filters-container');
-map.insertBefore(fragmentMapCard, filter); // inserts cards in markup
+
+var clickHandler = function (evt) {
+  if (clickedElement !== mapPinMain) {
+    if (clickedElement) {
+      clickedElement.classList.remove('map__pin--active');
+    }
+
+    clickedElement = evt.target;
+    clickedElement.classList.add('map__pin--active');
+    fragmentMapCard.appendChild(renderMapCard(ads[0]));
+    map.insertBefore(fragmentMapCard, filter); // inserts cards in markup
+
+    var popupClose = document.querySelector('.popup__close');
+    popupClose.addEventListener('click', function () {
+      map.removeChild(mapCard);
+    });
+  } else {
+    clickedElement.classList.remove('map__pin--active');
+  }
+};
+mapPin.addEventListener('click', clickHandler);
