@@ -207,7 +207,7 @@ var fragmentMapCard = document.createDocumentFragment();
 var filter = map.querySelector('.map__filters-container');
 
 var clickHandler = function (evt) {
-  if (clickedElement !== mapPinMain) {
+  if (evt.target !== mapPinMain) {
     if (clickedElement) {
       clickedElement.classList.remove('map__pin--active');
     }
