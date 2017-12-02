@@ -5,6 +5,8 @@ var ESC_KEYCODE = 27;
 
 // Finding map, crating arrays with initial datas
 var map = document.querySelector('.map');
+var mapPins = document.querySelectorAll('.map__pin');
+var mapCards = document.querySelectorAll('.map__card');
 var fragmentMapCard = document.createDocumentFragment();
 var filter = map.querySelector('.map__filters-container');
 var houses = [
@@ -145,9 +147,27 @@ var renderPin = function (arrayElement) {
   pinButton.style = 'left: ' + (arrayElement.location.x - 20) + 'px; top: ' + (arrayElement.location.y - 40) + 'px;';
 
   // Inserts card with ad in markup
-  pinButton.addEventListener('click', function () {
+  pinButton.addEventListener('click', function (evt) {
+    pinButton = evt.target.parentElement;
+    mapCards = document.querySelectorAll('.map__card');
+    pinButton.classList.remove('map__pin--active');
+    for (var m = 0; m < mapCards.length; m++) {
+      map.removeChild(mapCards[m]);
+    }
+
+    pinButton.classList.add('map__pin--active');
+
     fragmentMapCard.appendChild(renderMapCard(arrayElement));
     map.insertBefore(fragmentMapCard, filter);
+
+    var popupClose = document.querySelector('.popup__close');
+    popupClose.addEventListener('click', function () {
+      mapCards = document.querySelectorAll('.map__card');
+      pinButton.classList.remove('map__pin--active');
+      for (var n = 0; n < mapCards.length; n++) {
+        map.removeChild(mapCards[n]);
+      }
+    });
   });
 
   return pinButton;
@@ -209,46 +229,3 @@ mapPinMain.addEventListener('mouseup', function () {
   formElementPhotos.disabled = false;
   formElementSubmit.disabled = false;
 });
-
-var clickedElement = null;
-var mapPins = document.querySelectorAll('.map__pin');
-var mapCards = document.querySelectorAll('.map__card');
-
-
-var clickHandler = function (evt) {
-  if (!evt.target.parentElement.classList.contains('map__pin--main')) {
-    clickedElement = evt.target.parentElement;
-
-    if (clickedElement) {
-      clickedElement.classList.remove('map__pin--active');
-      map.removeChild(mapCards);
-    }
-
-    clickedElement.classList.add('map__pin--active');
-
-    var popupClose = document.querySelector('.popup__close');
-    popupClose.addEventListener('click', function () {
-      mapCards = document.querySelectorAll('.map__card');
-      clickedElement.classList.remove('map__pin--active');
-      for (var n = 0; n < mapCards.length; n++) {
-        map.removeChild(mapCards[n]);
-      }
-    });
-  }
-};
-
-for (var p = 0; p < mapPins.length; p++) {
-  mapPins[p].addEventListener('click', clickHandler);
-  mapPins[p].addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      clickHandler();
-      document.removeEventListener('keydown', function () {
-        if (evt.keyCode === ESC_KEYCODE) {
-          for (var n = 0; n < mapCards.length; n++) {
-            map.removeChild(mapCards[n]);
-          }
-        }
-      });
-    }
-  });
-}
