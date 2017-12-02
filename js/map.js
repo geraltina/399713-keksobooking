@@ -2,6 +2,8 @@
 
 // Finding map, crating arrays with initial datas
 var map = document.querySelector('.map');
+var fragmentMapCard = document.createDocumentFragment();
+var filter = map.querySelector('.map__filters-container');
 var houses = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -91,33 +93,6 @@ for (var i = 1; i <= 8; ++i) {
     'location': locationObject
   };
 }
-
-// Function for rendering pins with certain attributes on map
-var setupListElement = document.querySelector('.map__pins');
-var renderPin = function (arrayElement) {
-  var pinButton = document.createElement('button');
-  var pinImage = document.createElement('img');
-  setupListElement.appendChild(pinButton);
-  pinButton.appendChild(pinImage);
-  pinButton.classList.add('map__pin');
-
-  pinImage.src = arrayElement.author.avatar;
-  pinImage.width = 40;
-  pinImage.height = 40;
-  pinImage.draggable = false;
-  pinButton.style = 'left: ' + (arrayElement.location.x - 20) + 'px; top: ' + (arrayElement.location.y - 40) + 'px;';
-
-  return pinButton;
-};
-
-// Fragment with pins
-var fragment = document.createDocumentFragment();
-for (var j = 0; j < ads.length; j++) {
-  fragment.appendChild(renderPin(ads[j]));
-}
-
-setupListElement.appendChild(fragment); // inserts pins in markup
-
 // Creates card of advertisement on map
 var mapCardTemplate = document.querySelector('#card-template').content.querySelector('.map__card');
 var renderMapCard = function (arrayElement) {
@@ -150,6 +125,38 @@ var renderMapCard = function (arrayElement) {
 
   return mapCard;
 };
+
+// Function for rendering pins with certain attributes on map
+var setupListElement = document.querySelector('.map__pins');
+var renderPin = function (arrayElement) {
+  var pinButton = document.createElement('button');
+  var pinImage = document.createElement('img');
+  setupListElement.appendChild(pinButton);
+  pinButton.appendChild(pinImage);
+  pinButton.classList.add('map__pin');
+
+  pinImage.src = arrayElement.author.avatar;
+  pinImage.width = 40;
+  pinImage.height = 40;
+  pinImage.draggable = false;
+  pinButton.style = 'left: ' + (arrayElement.location.x - 20) + 'px; top: ' + (arrayElement.location.y - 40) + 'px;';
+
+  // Inserts card with ad in markup
+  pinButton.addEventListener('click', function () {
+    fragmentMapCard.appendChild(renderMapCard(arrayElement));
+    map.insertBefore(fragmentMapCard, filter);
+  });
+
+  return pinButton;
+};
+
+// Fragment with pins
+var fragment = document.createDocumentFragment();
+for (var j = 0; j < ads.length; j++) {
+  fragment.appendChild(renderPin(ads[j]));
+}
+
+setupListElement.appendChild(fragment); // inserts pins in markup
 
 // Creating interactive part of page
 // Searching big red pin and all fieldsets of form
@@ -203,11 +210,8 @@ mapPinMain.addEventListener('mouseup', function () {
 var clickedElement = null;
 var mapPins = document.querySelectorAll('.map__pin');
 
-var fragmentMapCard = document.createDocumentFragment();
-var filter = map.querySelector('.map__filters-container');
-
 var clickHandler = function (evt) {
-  if (evt.target !== mapPinMain) {
+  if (!evt.target.parentElement.classList.contains('map__pin--main')) {
     if (clickedElement) {
       clickedElement.classList.remove('map__pin--active');
       var mapCards = document.querySelectorAll('.map__card');
@@ -216,20 +220,17 @@ var clickHandler = function (evt) {
       }
     }
 
-    clickedElement = evt.target;
+    clickedElement = evt.target.parentElement;
     clickedElement.classList.add('map__pin--active');
-    fragmentMapCard.appendChild(renderMapCard(ads[0]));
-    map.insertBefore(fragmentMapCard, filter); // inserts cards in markup
 
     var popupClose = document.querySelector('.popup__close');
     popupClose.addEventListener('click', function () {
-      var mapCards = document.querySelectorAll('.map__card');
-      for (var m = 0; m < mapCards.length; m++) {
-        map.removeChild(mapCards[m]);
+      mapCards = document.querySelectorAll('.map__card');
+      clickedElement.classList.remove('map__pin--active');
+      for (var n = 0; n < mapCards.length; n++) {
+        map.removeChild(mapCards[n]);
       }
     });
-  } else {
-    clickedElement.classList.remove('map__pin--active');
   }
 };
 
