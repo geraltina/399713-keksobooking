@@ -1,5 +1,8 @@
 'use strict';
 
+var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
+
 // Finding map, crating arrays with initial datas
 var map = document.querySelector('.map');
 var fragmentMapCard = document.createDocumentFragment();
@@ -209,18 +212,18 @@ mapPinMain.addEventListener('mouseup', function () {
 
 var clickedElement = null;
 var mapPins = document.querySelectorAll('.map__pin');
+var mapCards = document.querySelectorAll('.map__card');
+
 
 var clickHandler = function (evt) {
   if (!evt.target.parentElement.classList.contains('map__pin--main')) {
+    clickedElement = evt.target.parentElement;
+
     if (clickedElement) {
       clickedElement.classList.remove('map__pin--active');
-      var mapCards = document.querySelectorAll('.map__card');
-      for (var m = 0; m < mapCards.length; m++) {
-        map.removeChild(mapCards[m]);
-      }
+      map.removeChild(mapCards);
     }
 
-    clickedElement = evt.target.parentElement;
     clickedElement.classList.add('map__pin--active');
 
     var popupClose = document.querySelector('.popup__close');
@@ -236,4 +239,16 @@ var clickHandler = function (evt) {
 
 for (var p = 0; p < mapPins.length; p++) {
   mapPins[p].addEventListener('click', clickHandler);
+  mapPins[p].addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      clickHandler();
+      document.removeEventListener('keydown', function () {
+        if (evt.keyCode === ESC_KEYCODE) {
+          for (var n = 0; n < mapCards.length; n++) {
+            map.removeChild(mapCards[n]);
+          }
+        }
+      });
+    }
+  });
 }
