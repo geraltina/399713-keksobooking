@@ -117,7 +117,6 @@ var renderPin = function (arrayElement) {
 
   // Inserts card with ad in markup
   pinButton.addEventListener('click', function (evt) {
-
     pinButton = evt.target.parentElement;
     pinButton.classList.add('map__pin--active');
 
@@ -185,9 +184,13 @@ var renderMapCard = function (arrayElement) {
   popupClose.addEventListener('click', function () {
     mapCards = document.querySelectorAll('.map__card');
     var pinButton = document.querySelectorAll('.map__pin');
-    for (var n = 0; n < mapCards.length; n++) {
-      pinButton[n].classList.remove('map__pin--active');
-      map.removeChild(mapCards[n]);
+
+    for (var h = 0; h <= ads.length; h++) {
+      pinButton[h].classList.remove('map__pin--active');
+    }
+
+    for (var m = 0; m < mapCards.length; m++) {
+      map.removeChild(mapCards[m]);
     }
   });
 
@@ -195,9 +198,13 @@ var renderMapCard = function (arrayElement) {
     if (event.keyCode === ENTER_KEYCODE) {
       mapCards = document.querySelectorAll('.map__card');
       var pinButton = document.querySelectorAll('.map__pin');
-      for (var n = 0; n < mapCards.length; n++) {
-        pinButton[n].classList.remove('map__pin--active');
-        map.removeChild(mapCards[n]);
+
+      for (var h = 0; h <= ads.length; h++) {
+        pinButton[h].classList.remove('map__pin--active');
+      }
+
+      for (var m = 0; m < mapCards.length; m++) {
+        map.removeChild(mapCards[m]);
       }
     }
   });
