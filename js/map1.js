@@ -39,7 +39,6 @@ var fragmentMapCard = document.createDocumentFragment();
 var setupListElement = document.querySelector('.map__pins');
 var filter = map.querySelector('.map__filters-container');
 var mapCardTemplate = document.querySelector('#card-template').content.querySelector('.map__card');
-var popupClose = document.querySelector('.popup__close');
 
 // Creating functions for getting random values
 var getRandomArrayIndex = function (array) { // random index
@@ -167,61 +166,41 @@ var renderMapCard = function (arrayElement) {
   mapCard.querySelector('.popup__description').textContent = arrayElement.offer.description;
   mapCard.querySelector('.popup__avatar').src = arrayElement.author.avatar;
 
-  var removeCard = function () {
+  var popupClose = document.querySelector('.popup__close');
+  document.addEventListener('keydown', function (event) {
+    if (event.keyCode === ESC_KEYCODE) {
+      mapCards = document.querySelectorAll('.map__card');
+      var pinButton = document.querySelectorAll('.map__pin');
+
+      for (var h = 0; h <= ads.length; h++) {
+        pinButton[h].classList.remove('map__pin--active');
+      }
+
+      for (var m = 0; m < mapCards.length; m++) {
+        map.removeChild(mapCards[m]);
+      }
+    }
+  });
+
+  popupClose.addEventListener('click', function () {
     mapCards = document.querySelectorAll('.map__card');
     var pinButton = document.querySelectorAll('.map__pin');
-
-    for (var h = 0; h <= ads.length; h++) {
-      pinButton[h].classList.remove('map__pin--active');
+    for (var n = 0; n < mapCards.length; n++) {
+      pinButton[n].classList.remove('map__pin--active');
+      map.removeChild(mapCards[n]);
     }
+  });
 
-    for (var m = 0; m < mapCards.length; m++) {
-      map.removeChild(mapCards[m]);
-    }
-  };
-
-  var closePopup = function () {
-    document.addEventListener('keydown', function (event) {
-      if (event.keyCode === ESC_KEYCODE) {
-        removeCard();
-      }
-    });
-
-    popupClose.addEventListener('click', function () {
+  popupClose.addEventListener('keydown', function () {
+    if (event.keyCode === ENTER_KEYCODE) {
       mapCards = document.querySelectorAll('.map__card');
       var pinButton = document.querySelectorAll('.map__pin');
       for (var n = 0; n < mapCards.length; n++) {
         pinButton[n].classList.remove('map__pin--active');
         map.removeChild(mapCards[n]);
       }
-    });
-
-    popupClose.addEventListener('keydown', function () {
-      if (event.keyCode === ENTER_KEYCODE) {
-        mapCards = document.querySelectorAll('.map__card');
-        var pinButton = document.querySelectorAll('.map__pin');
-        for (var n = 0; n < mapCards.length; n++) {
-          pinButton[n].classList.remove('map__pin--active');
-          map.removeChild(mapCards[n]);
-        }
-      }
-    });
-  };
-
-  var pinButton = document.querySelectorAll('.map__pin');
-  for (var q = 0; q < arrayElement; q++) {
-    pinButton[q].addEventListener('click', function () {
-      removeCard();
-      closePopup();
-    });
-
-    pinButton[q].addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ENTER_KEYCODE) {
-        removeCard();
-        closePopup();
-      }
-    });
-  }
+    }
+  });
 
   return mapCard;
 };
