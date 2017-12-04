@@ -1,11 +1,7 @@
 'use strict';
 
-var ENTER_KEYCODE = 13;
-var ESC_KEYCODE = 27;
-
 // Finding map, crating arrays with initial datas
 var map = document.querySelector('.map');
-var mapPins = document.querySelectorAll('.map__pin');
 var mapCards = document.querySelectorAll('.map__card');
 var fragmentMapCard = document.createDocumentFragment();
 var filter = map.querySelector('.map__filters-container');
@@ -98,6 +94,7 @@ for (var i = 1; i <= 8; ++i) {
     'location': locationObject
   };
 }
+
 // Creates card of advertisement on map
 var mapCardTemplate = document.querySelector('#card-template').content.querySelector('.map__card');
 var renderMapCard = function (arrayElement) {
@@ -148,18 +145,21 @@ var renderPin = function (arrayElement) {
 
   // Inserts card with ad in markup
   pinButton.addEventListener('click', function (evt) {
-    pinButton = evt.target.parentElement;
+    pinButton = document.querySelectorAll('.map__pin');
     mapCards = document.querySelectorAll('.map__card');
-    pinButton.classList.remove('map__pin--active');
+    for (var h = 0; h <= ads.length; h++) {
+      pinButton[h].classList.remove('map__pin--active');
+    }
+
     for (var m = 0; m < mapCards.length; m++) {
       map.removeChild(mapCards[m]);
     }
 
+    pinButton = evt.target.parentElement;
     pinButton.classList.add('map__pin--active');
 
     fragmentMapCard.appendChild(renderMapCard(arrayElement));
     map.insertBefore(fragmentMapCard, filter);
-
     var popupClose = document.querySelector('.popup__close');
     popupClose.addEventListener('click', function () {
       mapCards = document.querySelectorAll('.map__card');
