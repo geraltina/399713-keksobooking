@@ -1,5 +1,8 @@
 'use strict';
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
 // Finding map, crating arrays with initial datas
 var map = document.querySelector('.map');
 var mapCards = document.querySelectorAll('.map__card');
@@ -160,6 +163,17 @@ var renderPin = function (arrayElement) {
 
     fragmentMapCard.appendChild(renderMapCard(arrayElement));
     map.insertBefore(fragmentMapCard, filter);
+
+    document.addEventListener('keydown', function (event) {
+      if (event.keyCode === ESC_KEYCODE) {
+        mapCards = document.querySelectorAll('.map__card');
+        pinButton.classList.remove('map__pin--active');
+        for (var d = 0; d < mapCards.length; d++) {
+          map.removeChild(mapCards[d]);
+        }
+      }
+    });
+
     var popupClose = document.querySelector('.popup__close');
     popupClose.addEventListener('click', function () {
       mapCards = document.querySelectorAll('.map__card');
@@ -168,6 +182,65 @@ var renderPin = function (arrayElement) {
         map.removeChild(mapCards[n]);
       }
     });
+
+    popupClose.addEventListener('keydown', function () {
+      if (event.keyCode === ENTER_KEYCODE) {
+        mapCards = document.querySelectorAll('.map__card');
+        pinButton.classList.remove('map__pin--active');
+        for (var n = 0; n < mapCards.length; n++) {
+          map.removeChild(mapCards[n]);
+        }
+      }
+    });
+  });
+
+  pinButton.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      pinButton = document.querySelectorAll('.map__pin');
+      mapCards = document.querySelectorAll('.map__card');
+      for (var h = 0; h <= ads.length; h++) {
+        pinButton[h].classList.remove('map__pin--active');
+      }
+
+      for (var m = 0; m < mapCards.length; m++) {
+        map.removeChild(mapCards[m]);
+      }
+
+      pinButton = evt.target.parentElement;
+      pinButton.classList.add('map__pin--active');
+
+      fragmentMapCard.appendChild(renderMapCard(arrayElement));
+      map.insertBefore(fragmentMapCard, filter);
+
+      document.addEventListener('keydown', function (event) {
+        if (event.keyCode === ESC_KEYCODE) {
+          mapCards = document.querySelectorAll('.map__card');
+          pinButton.classList.remove('map__pin--active');
+          for (var d = 0; d < mapCards.length; d++) {
+            map.removeChild(mapCards[d]);
+          }
+        }
+      });
+
+      var popupClose = document.querySelector('.popup__close');
+      popupClose.addEventListener('click', function () {
+        mapCards = document.querySelectorAll('.map__card');
+        pinButton.classList.remove('map__pin--active');
+        for (var n = 0; n < mapCards.length; n++) {
+          map.removeChild(mapCards[n]);
+        }
+      });
+
+      popupClose.addEventListener('keydown', function () {
+        if (event.keyCode === ENTER_KEYCODE) {
+          mapCards = document.querySelectorAll('.map__card');
+          pinButton.classList.remove('map__pin--active');
+          for (var n = 0; n < mapCards.length; n++) {
+            map.removeChild(mapCards[n]);
+          }
+        }
+      });
+    }
   });
 
   return pinButton;
