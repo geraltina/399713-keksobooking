@@ -3,7 +3,7 @@
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 
-// Finding map, crating arrays with initial datas
+// Finding map, creating arrays with initial datas
 var HOUSES = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -36,7 +36,10 @@ var PLACE_FEATURES = [
 var map = document.querySelector('.map');
 var mapCards = document.querySelectorAll('.map__card');
 var fragmentMapCard = document.createDocumentFragment();
+var setupListElement = document.querySelector('.map__pins');
 var filter = map.querySelector('.map__filters-container');
+var mapCardTemplate = document.querySelector('#card-template').content.querySelector('.map__card');
+var popupClose = document.querySelector('.popup__close');
 
 // Creating functions for getting random values
 var getRandomArrayIndex = function (array) { // random index
@@ -51,11 +54,11 @@ var getRandomNumber = function (min, max) { // random number from min to max
 };
 
 var placeFeaturesLength = PLACE_FEATURES.length;
-var getElementsNumber = function () { // random sum of elements from placeFeatures array
+var getElementsNumber = function () { // random sum of elements from PLACE_FEATURES array
   return getRandomNumber(0, placeFeaturesLength);
 };
 
-var getRandomFeatures = function () { // random features for ads.offer.features from placeFeatures array
+var getRandomFeatures = function () { // random features for ads.offer.features from PLACE_FEATURES array
   var randomNumber = getElementsNumber();
   var features = [];
   while (features.length < randomNumber) {
@@ -99,16 +102,13 @@ for (var i = 1; i <= 8; ++i) {
   };
 }
 
-
-var popupClose = document.querySelector('.popup__close');
 // Function for rendering pins with certain attributes on map
-var setupListElement = document.querySelector('.map__pins');
 var renderPin = function (arrayElement) {
   var pinButton = document.createElement('button');
+  pinButton.classList.add('map__pin');
   var pinImage = document.createElement('img');
   setupListElement.appendChild(pinButton);
   pinButton.appendChild(pinImage);
-  pinButton.classList.add('map__pin');
 
   pinImage.src = arrayElement.author.avatar;
   pinImage.width = 40;
@@ -116,75 +116,29 @@ var renderPin = function (arrayElement) {
   pinImage.draggable = false;
   pinButton.style = 'left: ' + (arrayElement.location.x - 20) + 'px; top: ' + (arrayElement.location.y - 40) + 'px;';
 
-  var removeCard = function () {
-    pinButton = document.querySelectorAll('.map__pin');
-    mapCards = document.querySelectorAll('.map__card');
-    for (var h = 0; h <= ads.length; h++) {
-      pinButton[h].classList.remove('map__pin--active');
-    }
-
-    for (var m = 0; m < mapCards.length; m++) {
-      map.removeChild(mapCards[m]);
-    }
-  };
-
-  var closePopup = function () {
-    document.addEventListener('keydown', function (event) {
-      if (event.keyCode === ESC_KEYCODE) {
-        removeCard();
-      }
-    });
-    popupClose = document.querySelector('.popup__close');
-    popupClose.addEventListener('click', function () {
-      mapCards = document.querySelectorAll('.map__card');
-      pinButton.classList.remove('map__pin--active');
-      for (var n = 0; n < mapCards.length; n++) {
-        map.removeChild(mapCards[n]);
-      }
-    });
-    popupClose.addEventListener('keydown', function () {
-      if (event.keyCode === ENTER_KEYCODE) {
-        mapCards = document.querySelectorAll('.map__card');
-        pinButton.classList.remove('map__pin--active');
-        for (var n = 0; n < mapCards.length; n++) {
-          map.removeChild(mapCards[n]);
-        }
-      }
-    });
-  };
-
   // Inserts card with ad in markup
   pinButton.addEventListener('click', function (evt) {
-    removeCard();
 
     pinButton = evt.target.parentElement;
     pinButton.classList.add('map__pin--active');
 
     fragmentMapCard.appendChild(renderMapCard(arrayElement));
     map.insertBefore(fragmentMapCard, filter);
-
-    closePopup();
   });
 
   pinButton.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
-      removeCard();
-
       pinButton = evt.target.parentElement;
       pinButton.classList.add('map__pin--active');
 
       fragmentMapCard.appendChild(renderMapCard(arrayElement));
       map.insertBefore(fragmentMapCard, filter);
-
-      closePopup();
     }
   });
 
   return pinButton;
 };
 
-// Creates card of advertisement on map
-var mapCardTemplate = document.querySelector('#card-template').content.querySelector('.map__card');
 var renderMapCard = function (arrayElement) {
   var mapCard = mapCardTemplate.cloneNode(true);
 
@@ -212,6 +166,62 @@ var renderMapCard = function (arrayElement) {
 
   mapCard.querySelector('.popup__description').textContent = arrayElement.offer.description;
   mapCard.querySelector('.popup__avatar').src = arrayElement.author.avatar;
+
+  var removeCard = function () {
+    mapCards = document.querySelectorAll('.map__card');
+    var pinButton = document.querySelectorAll('.map__pin');
+
+    for (var h = 0; h <= ads.length; h++) {
+      pinButton[h].classList.remove('map__pin--active');
+    }
+
+    for (var m = 0; m < mapCards.length; m++) {
+      map.removeChild(mapCards[m]);
+    }
+  };
+
+  var closePopup = function () {
+    document.addEventListener('keydown', function (event) {
+      if (event.keyCode === ESC_KEYCODE) {
+        removeCard();
+      }
+    });
+
+    popupClose.addEventListener('click', function () {
+      mapCards = document.querySelectorAll('.map__card');
+      var pinButton = document.querySelectorAll('.map__pin');
+      for (var n = 0; n < mapCards.length; n++) {
+        pinButton[n].classList.remove('map__pin--active');
+        map.removeChild(mapCards[n]);
+      }
+    });
+
+    popupClose.addEventListener('keydown', function () {
+      if (event.keyCode === ENTER_KEYCODE) {
+        mapCards = document.querySelectorAll('.map__card');
+        var pinButton = document.querySelectorAll('.map__pin');
+        for (var n = 0; n < mapCards.length; n++) {
+          pinButton[n].classList.remove('map__pin--active');
+          map.removeChild(mapCards[n]);
+        }
+      }
+    });
+  };
+
+  var pinButton = document.querySelectorAll('.map__pin');
+  for (var q = 0; q < arrayElement; q++) {
+    pinButton[q].addEventListener('click', function () {
+      removeCard();
+      closePopup();
+    });
+
+    pinButton[q].addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ENTER_KEYCODE) {
+        removeCard();
+        closePopup();
+      }
+    });
+  }
 
   return mapCard;
 };
