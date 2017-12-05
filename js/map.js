@@ -144,9 +144,9 @@ var renderMapCard = function (arrayElement) {
 
   // Checks type of house
   var typeOfHouse = {
-    flat: 'Квартира',
-    bungalo: 'Бунгало',
-    house: 'Дом'
+    'flat': 'Квартира',
+    'bungalo': 'Бунгало',
+    'house': 'Дом'
   };
 
   mapCard.querySelector('h4').textContent = typeOfHouse[arrayElement.offer.type];
