@@ -1,7 +1,6 @@
 'use strict';
 
 var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 
 // Finding map, creating arrays with initial datas
 var HOUSES = [
@@ -96,7 +95,7 @@ var clearCard = function () {
   mapCards = document.querySelectorAll('.map__card');
   var pinButtons = document.querySelectorAll('.map__pin');
 
-  for (var h = 0; h <= ads.length; h++) {
+  for (var h = 0; h < pinButtons.length; h++) {
     pinButtons[h].classList.remove('map__pin--active');
   }
 
