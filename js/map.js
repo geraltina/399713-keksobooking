@@ -267,6 +267,8 @@ fieldChange(arrivalTime, leavingTime);
 // and sets min and max valid price for each type
 var accomodationType = noticeForm.querySelector('#type');
 var accomodationPrice = noticeForm.querySelector('#price');
+var accomodationTitle = document.querySelector('#title');
+var accomodationAddress = document.querySelector('#address');
 var accomodationPrices = {
   'bungalo': 0,
   'flat': 1000,
@@ -278,40 +280,81 @@ accomodationType.addEventListener('change', function () {
   accomodationPrice.value = accomodationPrices[accomodationType.value];
 });
 
-if (accomodationType.value === 'bungalo') {
-  accomodationPrice.min = 0;
-  accomodationPrice.max = 999;
-} else if (accomodationType.value === 'flat') {
-  accomodationPrice.min = 1000;
-  accomodationPrice.max = 4999;
-} else if (accomodationType.value === 'house') {
-  accomodationPrice.min = 5000;
-  accomodationPrice.max = 9999;
-} else {
-  accomodationPrice.min = 10000;
-}
-
 var roomNumber = noticeForm.querySelector('#room_number');
 var capacity = noticeForm.querySelector('#capacity');
 
 var onRoomChange = function () {
-  for (var p = 0; p < roomNumber.options.length; p++) {
-    if (roomNumber.options[p].value === '0') {
-      capacity.options[0].disabled = true;
-      capacity.options[1].disabled = true;
-      capacity.options[2].disabled = true;
-    } else if (roomNumber.options[p].value === '1') {
-      capacity.options[0].disabled = true;
-      capacity.options[1].disabled = true;
-      capacity.options[3].disabled = true;
-    } else if (roomNumber.options[p].value === '2') {
-      capacity.options[0].disabled = true;
-      capacity.options[3].disabled = true;
-    } else if (roomNumber.options[p].value === '3') {
-      capacity.options[3].disabled = true;
-    }
+  if (roomNumber.options[0].selected) {
+    capacity.options[0].disabled = true;
+    capacity.options[1].disabled = true;
+    capacity.options[2].disabled = false;
+    capacity.options[3].disabled = true;
+  } else if (roomNumber.options[1].selected) {
+    capacity.options[0].disabled = true;
+    capacity.options[1].disabled = false;
+    capacity.options[2].disabled = false;
+    capacity.options[3].disabled = true;
+  } else if (roomNumber.options[2].selected) {
+    capacity.options[0].disabled = false;
+    capacity.options[1].disabled = false;
+    capacity.options[2].disabled = false;
+    capacity.options[3].disabled = true;
+  } else if (roomNumber.options[3].selected) {
+    capacity.options[0].disabled = true;
+    capacity.options[1].disabled = true;
+    capacity.options[2].disabled = true;
+    capacity.options[3].disabled = false;
   }
 };
 
 window.addEventListener('load', onRoomChange);
 roomNumber.addEventListener('change', onRoomChange);
+
+var getMinMaxValue = function () {
+  if (accomodationType.value === 'bungalo') {
+    accomodationPrice.min = 0;
+    accomodationPrice.max = 999;
+  } else if (accomodationType.value === 'flat') {
+    accomodationPrice.min = 1000;
+    accomodationPrice.max = 4999;
+  } else if (accomodationType.value === 'house') {
+    accomodationPrice.min = 5000;
+    accomodationPrice.max = 9999;
+  } else {
+    accomodationPrice.min = 10000;
+  }
+};
+
+var validation = function (evt) {
+  accomodationPrice.addEventListener('invalid', function () {
+    if (accomodationPrice.rangeUnderflow || accomodationPrice.rangeOverflow) {
+      accomodationPrice.style.border = '1px solid #ff0000';
+      evt.preventDefault();
+    }
+  });
+
+  accomodationTitle.addEventListener('invalid', function () {
+    if (accomodationTitle.valueMissing) {
+      accomodationTitle.style.border = '1px solid #ff0000';
+      evt.preventDefault();
+    }
+  });
+
+  accomodationAddress.addEventListener('invalid', function () {
+    if (accomodationAddress.valueMissing) {
+      accomodationAddress.style.border = '1px solid #ff0000';
+      evt.preventDefault();
+    }
+  });
+
+  if (
+    getMinMaxValue.invalid ||
+    accomodationPrice.invalid ||
+    accomodationTitle.invalid ||
+    accomodationAddress.invalid
+  ) {
+    evt.preventDefault();
+  }
+};
+
+noticeForm.addEventListener('submit', validation);
