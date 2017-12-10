@@ -293,31 +293,25 @@ if (accomodationType.value === 'bungalo') {
 
 var roomNumber = noticeForm.querySelector('#room_number');
 var capacity = noticeForm.querySelector('#capacity');
-for (var p = 0; p < roomNumber.options.length; p++) {
-  if (roomNumber.options[p].value === 0) {
-    capacity.options[0].disabled = true;
-    capacity.options[1].disabled = true;
-    capacity.options[2].disabled = true;
-    capacity.options[3].disabled = false;
-  }
-  if (roomNumber.options[p].value === 1) {
-    capacity.options[0].disabled = true;
-    capacity.options[1].disabled = true;
-    capacity.options[2].disabled = false;
-    capacity.options[3].disabled = true;
-  }
 
-  if (roomNumber.options[p].value === 2) {
-    capacity.options[0].disabled = true;
-    capacity.options[1].disabled = false;
-    capacity.options[2].disabled = false;
-    capacity.options[3].disabled = true;
+var onRoomChange = function () {
+  for (var p = 0; p < roomNumber.options.length; p++) {
+    if (roomNumber.options[p].value === '0') {
+      capacity.options[0].disabled = true;
+      capacity.options[1].disabled = true;
+      capacity.options[2].disabled = true;
+    } else if (roomNumber.options[p].value === '1') {
+      capacity.options[0].disabled = true;
+      capacity.options[1].disabled = true;
+      capacity.options[3].disabled = true;
+    } else if (roomNumber.options[p].value === '2') {
+      capacity.options[0].disabled = true;
+      capacity.options[3].disabled = true;
+    } else if (roomNumber.options[p].value === '3') {
+      capacity.options[3].disabled = true;
+    }
   }
+};
 
-  if (roomNumber.options[p].value === 3) {
-    capacity.options[0].disabled = false;
-    capacity.options[1].disabled = false;
-    capacity.options[2].disabled = false;
-    capacity.options[3].disabled = true;
-  }
-}
+window.addEventListener('load', onRoomChange);
+roomNumber.addEventListener('change', onRoomChange);
