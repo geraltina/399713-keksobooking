@@ -265,10 +265,11 @@ fieldChange(arrivalTime, leavingTime);
 
 // Changes price per night depending on the type of accomodation
 // and sets min and max valid price for each type
+var inputs = noticeForm.querySelectorAll('input[type=text]');
 var accomodationType = noticeForm.querySelector('#type');
 var accomodationPrice = noticeForm.querySelector('#price');
-var accomodationTitle = document.querySelector('#title');
-var accomodationAddress = document.querySelector('#address');
+var accomodationTitle = noticeForm.querySelector('#title');
+var accomodationAddress = noticeForm.querySelector('#address');
 var accomodationPrices = {
   'bungalo': 0,
   'flat': 1000,
@@ -284,26 +285,23 @@ var roomNumber = noticeForm.querySelector('#room_number');
 var capacity = noticeForm.querySelector('#capacity');
 
 var onRoomChange = function () {
+  for (var p = 0; p < roomNumber.length; p++) {
+    capacity.options[p].disabled = false;
+  }
+
   if (roomNumber.options[0].selected) {
     capacity.options[0].disabled = true;
     capacity.options[1].disabled = true;
-    capacity.options[2].disabled = false;
     capacity.options[3].disabled = true;
   } else if (roomNumber.options[1].selected) {
     capacity.options[0].disabled = true;
-    capacity.options[1].disabled = false;
-    capacity.options[2].disabled = false;
     capacity.options[3].disabled = true;
   } else if (roomNumber.options[2].selected) {
-    capacity.options[0].disabled = false;
-    capacity.options[1].disabled = false;
-    capacity.options[2].disabled = false;
     capacity.options[3].disabled = true;
   } else if (roomNumber.options[3].selected) {
     capacity.options[0].disabled = true;
     capacity.options[1].disabled = true;
     capacity.options[2].disabled = true;
-    capacity.options[3].disabled = false;
   }
 };
 
@@ -325,36 +323,23 @@ var getMinMaxValue = function () {
   }
 };
 
-var validation = function (evt) {
-  accomodationPrice.addEventListener('invalid', function () {
-    if (accomodationPrice.rangeUnderflow || accomodationPrice.rangeOverflow) {
-      accomodationPrice.style.border = '1px solid #ff0000';
-      evt.preventDefault();
-    }
-  });
+accomodationPrice.addEventListener('change', function () {
+  getMinMaxValue();
+  if (accomodationPrice.validity.rangeUnderflow || accomodationPrice.validity.rangeOverflow) {
+    accomodationPrice.style.borderColor = '#ff0000';
+  } else {
+    accomodationPrice.style.borderColor = '#d9d9d3';
+  }
+});
 
-  accomodationTitle.addEventListener('invalid', function () {
-    if (accomodationTitle.valueMissing) {
-      accomodationTitle.style.border = '1px solid #ff0000';
-      evt.preventDefault();
+var validity = function () {
+  for (var x = 0; x < inputs.length; x++) {
+    if (!inputs[x].value) {
+      inputs[x].style.borderColor = '#ff0000';
     }
-  });
-
-  accomodationAddress.addEventListener('invalid', function () {
-    if (accomodationAddress.valueMissing) {
-      accomodationAddress.style.border = '1px solid #ff0000';
-      evt.preventDefault();
-    }
-  });
-
-  if (
-    getMinMaxValue.invalid ||
-    accomodationPrice.invalid ||
-    accomodationTitle.invalid ||
-    accomodationAddress.invalid
-  ) {
-    evt.preventDefault();
   }
 };
 
-noticeForm.addEventListener('submit', validation);
+validity();
+
+noticeForm.addEventListener('submit', validity);
