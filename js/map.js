@@ -268,7 +268,6 @@ fieldChange(arrivalTime, leavingTime);
 var inputs = noticeForm.querySelectorAll('input[type=text]');
 var accomodationType = noticeForm.querySelector('#type');
 var accomodationPrice = noticeForm.querySelector('#price');
-var accomodationTitle = noticeForm.querySelector('#title');
 var accomodationAddress = noticeForm.querySelector('#address');
 var accomodationPrices = {
   'bungalo': 0,
@@ -281,6 +280,7 @@ accomodationType.addEventListener('change', function () {
   accomodationPrice.value = accomodationPrices[accomodationType.value];
 });
 
+// Sets available options in select with number of guests
 var roomNumber = noticeForm.querySelector('#room_number');
 var capacity = noticeForm.querySelector('#capacity');
 
@@ -308,6 +308,7 @@ var onRoomChange = function () {
 window.addEventListener('load', onRoomChange);
 roomNumber.addEventListener('change', onRoomChange);
 
+// Sets min and max values for price input
 var getMinMaxValue = function () {
   if (accomodationType.value === 'bungalo') {
     accomodationPrice.min = 0;
@@ -320,11 +321,18 @@ var getMinMaxValue = function () {
     accomodationPrice.max = 9999;
   } else {
     accomodationPrice.min = 10000;
+    accomodationPrice.max = 1000000;
   }
 };
 
+// Makes field available for reading only
+accomodationAddress.style.pointerEvents = 'none';
+
+// Checks value in the price field
+// makes its border red if value is too big or too small
 accomodationPrice.addEventListener('change', function () {
   getMinMaxValue();
+
   if (accomodationPrice.validity.rangeUnderflow || accomodationPrice.validity.rangeOverflow) {
     accomodationPrice.style.borderColor = '#ff0000';
   } else {
@@ -332,11 +340,29 @@ accomodationPrice.addEventListener('change', function () {
   }
 });
 
-var validity = function () {
+// Checks if all text inputs are filled
+var validity = function (evt) {
   for (var x = 0; x < inputs.length; x++) {
     if (!inputs[x].value) {
       inputs[x].style.borderColor = '#ff0000';
+      evt.preventDefault();
     }
+  }
+
+  for (var y = 0; y < inputs.length; y++) {
+    if (!inputs[y].valid) {
+      inputs[y].style.borderColor = '#ff0000';
+      evt.preventDefault();
+    }
+  }
+
+  getMinMaxValue();
+
+  if (accomodationPrice.validity.rangeUnderflow || accomodationPrice.validity.rangeOverflow) {
+    accomodationPrice.style.borderColor = '#ff0000';
+    evt.preventDefault();
+  } else {
+    accomodationPrice.style.borderColor = '#d9d9d3';
   }
 };
 
