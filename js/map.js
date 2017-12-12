@@ -330,7 +330,7 @@ accomodationAddress.style.pointerEvents = 'none';
 
 // Checks value in the price field
 // makes its border red if value is too big or too small
-accomodationPrice.addEventListener('change', function () {
+accomodationPrice.addEventListener('invalid', function () {
   getMinMaxValue();
 
   if (accomodationPrice.validity.rangeUnderflow || accomodationPrice.validity.rangeOverflow) {
@@ -342,27 +342,11 @@ accomodationPrice.addEventListener('change', function () {
 
 // Checks if all text inputs are filled
 var validity = function (evt) {
-  for (var x = 0; x < inputs.length; x++) {
-    if (!inputs[x].value) {
-      inputs[x].style.borderColor = '#ff0000';
-      evt.preventDefault();
-    }
-  }
-
   for (var y = 0; y < inputs.length; y++) {
     if (!inputs[y].valid) {
       inputs[y].style.borderColor = '#ff0000';
       evt.preventDefault();
     }
-  }
-
-  getMinMaxValue();
-
-  if (accomodationPrice.validity.rangeUnderflow || accomodationPrice.validity.rangeOverflow) {
-    accomodationPrice.style.borderColor = '#ff0000';
-    evt.preventDefault();
-  } else {
-    accomodationPrice.style.borderColor = '#d9d9d3';
   }
 };
 
