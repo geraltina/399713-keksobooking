@@ -289,19 +289,31 @@ var onRoomChange = function () {
     capacity.options[p].disabled = false;
   }
 
+  // if there's 1 room, only one guest can be there
+  // if there're 2 rooms, one or two guests can be there
+  // if there're 3 rooms, one, two or three guests can be there
+  // if there're 100 rooms, this house is not for guests at all
   if (roomNumber.options[0].selected) {
     capacity.options[0].disabled = true;
     capacity.options[1].disabled = true;
     capacity.options[3].disabled = true;
+
+    capacity.options[2]. selected = true;
   } else if (roomNumber.options[1].selected) {
     capacity.options[0].disabled = true;
     capacity.options[3].disabled = true;
+
+    capacity.options[1]. selected = true;
   } else if (roomNumber.options[2].selected) {
     capacity.options[3].disabled = true;
+
+    capacity.options[0]. selected = true;
   } else if (roomNumber.options[3].selected) {
     capacity.options[0].disabled = true;
     capacity.options[1].disabled = true;
     capacity.options[2].disabled = true;
+
+    capacity.options[3]. selected = true;
   }
 };
 
@@ -341,11 +353,10 @@ accomodationPrice.addEventListener('invalid', function () {
 });
 
 // Checks if all text inputs are filled
-var validity = function (evt) {
+var validity = function () {
   for (var y = 0; y < inputs.length; y++) {
     if (!inputs[y].valid) {
       inputs[y].style.borderColor = '#ff0000';
-      evt.preventDefault();
     }
   }
 };
