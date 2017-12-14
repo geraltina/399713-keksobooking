@@ -1,6 +1,6 @@
 'use strict';
 
-window.insertPin = (function () {
+window.renderPins = function () {
   var fragment = document.createDocumentFragment();
   window.data.setupListElement = document.querySelector('.map__pins');
 
@@ -9,4 +9,4 @@ window.insertPin = (function () {
   }
 
   window.data.setupListElement.appendChild(fragment); // inserts pins in markup
-})();
+};
