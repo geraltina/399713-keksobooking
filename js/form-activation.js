@@ -32,8 +32,8 @@ window.formActivation = (function () {
 
   // Once the big red pin is tapped - map and form are active
   mapPinMain.addEventListener('mouseup', function () {
-    window.data.map.classList.remove('map--faded'); // shows map with ads
-    window.data.noticeForm.classList.remove('notice__form--disabled'); // shows form
+    window.general.map.classList.remove('map--faded'); // shows map with ads
+    window.general.noticeForm.classList.remove('notice__form--disabled'); // shows form
     noticeHeader.disabled = false;
     formElementTitle.disabled = false;
     formElementAddress.disabled = false;

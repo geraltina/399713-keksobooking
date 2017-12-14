@@ -18,7 +18,7 @@ window.clear = (function () {
       }
 
       for (var m = 0; m < mapCards.length; m++) {
-        window.data.map.removeChild(mapCards[m]);
+        window.general.map.removeChild(mapCards[m]);
       }
 
       document.removeEventListener('keydown', onEscPress);

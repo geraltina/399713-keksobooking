@@ -2,11 +2,11 @@
 
 window.renderPins = function () {
   var fragment = document.createDocumentFragment();
-  window.data.setupListElement = document.querySelector('.map__pins');
+  window.general.setupListElement = document.querySelector('.map__pins');
 
-  for (var j = 0; j < window.data.ads.length; j++) {
-    fragment.appendChild(window.renderPin(window.data.ads[j]));
+  for (var j = 0; j < window.general.ads.length; j++) {
+    fragment.appendChild(window.renderPin(window.general.ads[j]));
   }
 
-  window.data.setupListElement.appendChild(fragment); // inserts pins in markup
+  window.general.setupListElement.appendChild(fragment); // inserts pins in markup
 };

@@ -16,11 +16,11 @@ window.random = (function () {
       return this.getRandomNumber(0, arrayLength);
     },
     getRandomFeatures: function () { // random features from PLACE_FEATURES array
-      var placeFeaturesLength = window.data.PLACE_FEATURES.length;
+      var placeFeaturesLength = window.general.PLACE_FEATURES.length;
       var randomNumber = window.random.getElementsNumber(placeFeaturesLength);
       var features = [];
       while (features.length < randomNumber) {
-        var randomElement = window.random.getRandomArrayWord(window.data.PLACE_FEATURES);
+        var randomElement = window.random.getRandomArrayWord(window.general.PLACE_FEATURES);
         if (features.includes(randomElement) === false) {
           features.push(randomElement);
         }
