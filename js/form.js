@@ -1,21 +1,19 @@
 'use strict';
 
-var noticeForm = document.querySelector('.notice__form');
-
 window.form = (function () {
-  var arrivalTime = noticeForm.querySelector('#timein');
-  var leavingTime = noticeForm.querySelector('#timeout');
-  var accomodationType = noticeForm.querySelector('#type');
-  var accomodationPrice = noticeForm.querySelector('#price');
-  var accomodationAddress = noticeForm.querySelector('#address');
+  var arrivalTime = window.data.noticeForm.querySelector('#timein');
+  var leavingTime = window.data.noticeForm.querySelector('#timeout');
+  var accomodationType = window.data.noticeForm.querySelector('#type');
+  var accomodationPrice = window.data.noticeForm.querySelector('#price');
+  var accomodationAddress = window.data.noticeForm.querySelector('#address');
   var accomodationPrices = {
     'bungalo': 0,
     'flat': 1000,
     'house': 5000,
     'palace': 10000
   };
-  var roomNumber = noticeForm.querySelector('#room_number');
-  var capacity = noticeForm.querySelector('#capacity');
+  var roomNumber = window.data.noticeForm.querySelector('#room_number');
+  var capacity = window.data.noticeForm.querySelector('#capacity');
 
   // Makes field available for reading only
   accomodationAddress.style.pointerEvents = 'none';
@@ -118,5 +116,5 @@ window.form = (function () {
 
   validity();
 
-  noticeForm.addEventListener('submit', validity);
+  window.data.noticeForm.addEventListener('submit', validity);
 })();

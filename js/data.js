@@ -35,8 +35,9 @@ window.data = (function () {
       'conditioner'
     ],
 
+    ads: [],
     map: document.querySelector('.map'),
-
-    ads: []
+    noticeForm: document.querySelector('.notice__form'),
+    setupListElement: document.querySelector('.map__pins')
   };
 })();
