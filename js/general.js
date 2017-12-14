@@ -35,7 +35,6 @@ window.general = (function () {
       'conditioner'
     ],
 
-    ads: [],
     map: document.querySelector('.map'),
     noticeForm: document.querySelector('.notice__form'),
     setupListElement: document.querySelector('.map__pins')
