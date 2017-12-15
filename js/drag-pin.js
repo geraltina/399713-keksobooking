@@ -27,7 +27,7 @@ window.dragPin = function () {
       var topCoords = window.general.mapPinMain.offsetTop - shift.y;
       var leftCoords = window.general.mapPinMain.offsetLeft - shift.x;
 
-      if (topCoords < 100 && topCoords > 500) {
+      if (topCoords > 100 && topCoords < 500) {
         window.general.mapPinMain.style.top = topCoords + 'px';
         window.general.mapPinMain.style.left = leftCoords + 'px';
       }
