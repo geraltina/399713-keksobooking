@@ -29,6 +29,7 @@ window.dragPin = function () {
       if (topCoords > 100 && topCoords < 500) {
         window.general.mapPinMain.style.top = topCoords + 'px';
         window.general.mapPinMain.style.left = leftCoords + 'px';
+        window.general.accomodationAddress.value = 'x: ' + (leftCoords - 20) + ', y: ' + (topCoords + 44);
       }
     };
 

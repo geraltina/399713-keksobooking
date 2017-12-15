@@ -5,7 +5,6 @@ window.form = (function () {
   var leavingTime = window.general.noticeForm.querySelector('#timeout');
   var accomodationType = window.general.noticeForm.querySelector('#type');
   var accomodationPrice = window.general.noticeForm.querySelector('#price');
-  var accomodationAddress = window.general.noticeForm.querySelector('#address');
   var accomodationPrices = {
     'bungalo': 0,
     'flat': 1000,
@@ -16,7 +15,7 @@ window.form = (function () {
   var capacity = window.general.noticeForm.querySelector('#capacity');
 
   // Makes field available for reading only
-  accomodationAddress.style.pointerEvents = 'none';
+  window.general.accomodationAddress.style.pointerEvents = 'none';
 
   // Changes price depending on accomodation type
   accomodationType.addEventListener('change', function () {
