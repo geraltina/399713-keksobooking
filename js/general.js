@@ -37,6 +37,7 @@ window.general = (function () {
 
     map: document.querySelector('.map'),
     noticeForm: document.querySelector('.notice__form'),
-    setupListElement: document.querySelector('.map__pins')
+    setupListElement: document.querySelector('.map__pins'),
+    mapPinMain: document.querySelector('.map__pin--main')
   };
 })();

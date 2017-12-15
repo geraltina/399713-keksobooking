@@ -2,7 +2,6 @@
 
 window.formActivation = (function () {
   // Searching big red pin and all fieldsets of form
-  var mapPinMain = document.querySelector('.map__pin--main');
   var noticeHeader = document.querySelector('.notice__header');
   var formElementTitle = document.querySelector('.form__element--title');
   var formElementAddress = document.querySelector('.form__element--address');
@@ -31,7 +30,7 @@ window.formActivation = (function () {
   formElementSubmit.disabled = true;
 
   // Once the big red pin is tapped - map and form are active
-  mapPinMain.addEventListener('mouseup', function () {
+  window.general.mapPinMain.addEventListener('mouseup', function () {
     window.general.map.classList.remove('map--faded'); // shows map with ads
     window.general.noticeForm.classList.remove('notice__form--disabled'); // shows form
     noticeHeader.disabled = false;
