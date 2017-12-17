@@ -39,8 +39,8 @@ window.form = (function () {
 
   // Sets available options in select with number of guests
   var onRoomChange = function () {
-    for (var p = 0; p < roomNumber.length; p++) {
-      capacity.options[p].disabled = false;
+    for (var i = 0; i < roomNumber.length; i++) {
+      capacity.options[i].disabled = false;
     }
 
     // if there's 1 room, only one guest can be there
@@ -106,9 +106,9 @@ window.form = (function () {
   // Checks if all text inputs are filled
   var inputs = document.querySelectorAll('input[type="text"]');
   var validity = function () {
-    for (var y = 0; y < inputs.length; y++) {
-      if (!inputs[y].valid) {
-        inputs[y].style.borderColor = '#ff6d51';
+    for (var j = 0; j < inputs.length; j++) {
+      if (!inputs[j].valid) {
+        inputs[j].style.borderColor = '#ff6d51';
       }
     }
   };
