@@ -1,14 +1,14 @@
 'use strict';
 
 window.data = function () {
-  window.ads = [];
+  var ads = [];
   for (var i = 0; i < 8; ++i) {
     var locationObject = {
       'x': window.random.getRandomNumber(300, 900),
       'y': window.random.getRandomNumber(100, 500),
     };
 
-    window.ads[window.ads.length] = {
+    ads[ads.length] = {
       'author': {
         'avatar': 'img/avatars/user' + 0 + (i + 1) + '.png',
       },
@@ -31,5 +31,5 @@ window.data = function () {
     };
   }
 
-  return window.ads;
+  return ads;
 };
