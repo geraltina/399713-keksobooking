@@ -26,7 +26,7 @@ window.dragPin = function () {
       var topCoords = window.general.mapPinMain.offsetTop - shift.y;
       var leftCoords = window.general.mapPinMain.offsetLeft - shift.x;
 
-      if (topCoords > 100 && topCoords < 500) {
+      if (topCoords > 100 && topCoords < 500 && leftCoords > 0 && leftCoords < 1200) {
         window.general.mapPinMain.style.top = topCoords + 'px';
         window.general.mapPinMain.style.left = leftCoords + 'px';
         window.general.accomodationAddress.value = 'x: ' + (leftCoords - 20) + ', y: ' + (topCoords + 44);
