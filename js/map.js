@@ -1,6 +1,7 @@
 'use strict';
 
 window.map = (function () {
-  window.renderPins();
+  var adsArray = window.data();
+  window.renderPins(adsArray);
   window.dragPin();
 })();
