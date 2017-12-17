@@ -3,8 +3,9 @@
 window.map = (function () {
   window.data();
 
-  for (var i = 0; i < window.data().length; i++) {
-    window.renderPins(window.data()[i]);
+  var adsArray = window.data();
+  for (var i = 0; i < adsArray.length; i++) {
+    window.renderPins(adsArray[i]);
   }
 
   window.dragPin();
