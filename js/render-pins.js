@@ -1,12 +1,8 @@
 'use strict';
 
-window.renderPins = function () {
+window.renderPins = function (arrElem) {
   var fragment = document.createDocumentFragment();
   window.general.setupListElement = document.querySelector('.map__pins');
-
-  for (var j = 0; j < window.ads.length; j++) {
-    fragment.appendChild(window.renderPin(window.ads[j]));
-  }
-
+  fragment.appendChild(window.renderPin(arrElem));
   window.general.setupListElement.appendChild(fragment); // inserts pins in markup
 };

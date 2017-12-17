@@ -30,4 +30,6 @@ window.data = function () {
       'location': locationObject
     };
   }
+
+  return window.ads;
 };

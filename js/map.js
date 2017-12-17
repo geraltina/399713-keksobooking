@@ -2,6 +2,10 @@
 
 window.map = (function () {
   window.data();
-  window.renderPins();
+
+  for (var i = 0; i < window.ads.length; i++) {
+    window.renderPins(window.ads[i]);
+  }
+
   window.dragPin();
 })();
