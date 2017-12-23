@@ -23,23 +23,42 @@ window.form = (function () {
   // Changes first selected option
   // when second selected option is changed -
   // and vice versa
-  var syncValues = function (selectOne, selectTwo, arrayOne, arrayTwo) {
-    for (var x = 0; x < selectOne.options.length; x++) {
-      var elemOne = arrayOne[x];
-      var elemTwo = arrayTwo[x];
-      selectTwo.selectedIndex = arrayTwo.indexOf(elemTwo);
-      selectOne.selectedIndex = arrayOne.indexOf(elemOne);
-      selectOne.addEventListener('change', function () {
-        selectTwo.selectedIndex = selectOne.selectedIndex;
-      });
+  // var syncValues = function (selectOne, selectTwo, arrayOne, arrayTwo) {
+  //   for (var x = 0; x < selectOne.options.length; x++) {
+  //     var elemOne = arrayOne[x];
+  //     var elemTwo = arrayTwo[x];
+  //     selectTwo.selectedIndex = arrayTwo.indexOf(elemTwo);
+  //     selectOne.selectedIndex = arrayOne.indexOf(elemOne);
+  //     selectOne.addEventListener('change', function () {
+  //       selectTwo.selectedIndex = selectOne.selectedIndex;
+  //     });
+  //
+  //     selectTwo.addEventListener('change', function () {
+  //       selectOne.selectedIndex = selectTwo.selectedIndex;
+  //     });
+  //   }
+  // };
 
-      selectTwo.addEventListener('change', function () {
-        selectOne.selectedIndex = selectTwo.selectedIndex;
-      });
-    }
+  // Sets min and max values for price input
+  // var syncMinValue = function (selectOne, selectTwo, arrayOne, arrayTwo) {
+  //   for (var y = 0; y < selectOne.options.length; y++) {
+  //     if (selectOne.value === arrayOne[y]) {
+  //       selectTwo.min = arrayTwo[y];
+  //     }
+  //   }
+  // };
+
+  var syncValues = function (element, value) {
+    element.value = value;
+  };
+
+  var syncMinValue = function (element, value) {
+    element.min = value;
   };
 
   window.synchronizeFields(arrivalTime, leavingTime, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+  window.synchronizeFields(leavingTime, arrivalTime, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+  window.synchronizeFields(accomodationType, accomodationPrice, ['flat', 'bungalo', 'house', 'palace'], ['1000', '0', '5000', '10000'], syncMinValue);
 
   // Sets available options in select with number of guests
   var onRoomChange = function () {
@@ -78,20 +97,9 @@ window.form = (function () {
   window.addEventListener('load', onRoomChange);
   roomNumber.addEventListener('change', onRoomChange);
 
-  // Sets min and max values for price input
-  var syncMinValue = function (selectOne, selectTwo, arrayOne, arrayTwo) {
-    for (var y = 0; y < selectOne.options.length; y++) {
-      if (selectOne.value === arrayOne[y]) {
-        selectTwo.min = arrayTwo[y];
-      }
-    }
-  };
-
   // Checks value in the price field
   // makes its border red if value is too big or too small
   accomodationPrice.addEventListener('change', function () {
-    window.synchronizeFields(accomodationType, accomodationPrice, ['flat', 'bungalo', 'house', 'palace'], ['1000', '0', '5000', '10000'], syncMinValue);
-
     if (accomodationPrice.validity.rangeUnderflow || accomodationPrice.validity.rangeOverflow) {
       accomodationPrice.style.borderColor = '#ff6d51';
     } else {
