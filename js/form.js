@@ -23,35 +23,11 @@ window.form = (function () {
   // Changes first selected option
   // when second selected option is changed -
   // and vice versa
-  // var syncValues = function (selectOne, selectTwo, arrayOne, arrayTwo) {
-  //   for (var x = 0; x < selectOne.options.length; x++) {
-  //     var elemOne = arrayOne[x];
-  //     var elemTwo = arrayTwo[x];
-  //     selectTwo.selectedIndex = arrayTwo.indexOf(elemTwo);
-  //     selectOne.selectedIndex = arrayOne.indexOf(elemOne);
-  //     selectOne.addEventListener('change', function () {
-  //       selectTwo.selectedIndex = selectOne.selectedIndex;
-  //     });
-  //
-  //     selectTwo.addEventListener('change', function () {
-  //       selectOne.selectedIndex = selectTwo.selectedIndex;
-  //     });
-  //   }
-  // };
-
-  // Sets min and max values for price input
-  // var syncMinValue = function (selectOne, selectTwo, arrayOne, arrayTwo) {
-  //   for (var y = 0; y < selectOne.options.length; y++) {
-  //     if (selectOne.value === arrayOne[y]) {
-  //       selectTwo.min = arrayTwo[y];
-  //     }
-  //   }
-  // };
-
   var syncValues = function (element, value) {
     element.value = value;
   };
 
+  // Sets min and max values for price input
   var syncMinValue = function (element, value) {
     element.min = value;
   };
