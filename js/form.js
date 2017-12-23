@@ -3,6 +3,7 @@
 window.form = (function () {
   var arrivalTime = window.general.noticeForm.querySelector('#timein');
   var leavingTime = window.general.noticeForm.querySelector('#timeout');
+  var accomodationTitle = window.general.noticeForm.querySelector('#title');
   var accomodationType = window.general.noticeForm.querySelector('#type');
   var accomodationPrice = window.general.noticeForm.querySelector('#price');
   var accomodationPrices = {
@@ -14,9 +15,6 @@ window.form = (function () {
   var roomNumber = window.general.noticeForm.querySelector('#room_number');
   var capacity = window.general.noticeForm.querySelector('#capacity');
 
-  // Makes field available for reading only
-  window.general.accomodationAddress.style.pointerEvents = 'none';
-
   // Changes price depending on accomodation type
   accomodationType.addEventListener('change', function () {
     accomodationPrice.value = accomodationPrices[accomodationType.value];
@@ -25,17 +23,18 @@ window.form = (function () {
   // Changes first selected option
   // when second selected option is changed -
   // and vice versa
-  var fieldChange = function () {
-    arrivalTime.addEventListener('change', function () {
-      leavingTime.selectedIndex = arrivalTime.selectedIndex;
-    });
-
-    leavingTime.addEventListener('change', function () {
-      arrivalTime.selectedIndex = leavingTime.selectedIndex;
-    });
+  var syncValues = function (element, value) {
+    element.value = value;
   };
 
-  fieldChange();
+  // Sets min and max values for price input
+  var syncMinValue = function (element, value) {
+    element.min = value;
+  };
+
+  window.synchronizeFields(arrivalTime, leavingTime, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+  window.synchronizeFields(leavingTime, arrivalTime, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+  window.synchronizeFields(accomodationType, accomodationPrice, ['flat', 'bungalo', 'house', 'palace'], ['1000', '0', '5000', '10000'], syncMinValue);
 
   // Sets available options in select with number of guests
   var onRoomChange = function () {
@@ -74,28 +73,9 @@ window.form = (function () {
   window.addEventListener('load', onRoomChange);
   roomNumber.addEventListener('change', onRoomChange);
 
-  // Sets min and max values for price input
-  var getMinMaxValue = function () {
-    if (accomodationType.value === 'bungalo') {
-      accomodationPrice.min = 0;
-      accomodationPrice.max = 999;
-    } else if (accomodationType.value === 'flat') {
-      accomodationPrice.min = 1000;
-      accomodationPrice.max = 4999;
-    } else if (accomodationType.value === 'house') {
-      accomodationPrice.min = 5000;
-      accomodationPrice.max = 9999;
-    } else {
-      accomodationPrice.min = 10000;
-      accomodationPrice.max = 1000000;
-    }
-  };
-
   // Checks value in the price field
   // makes its border red if value is too big or too small
-  accomodationPrice.addEventListener('invalid', function () {
-    getMinMaxValue();
-
+  accomodationPrice.addEventListener('change', function () {
     if (accomodationPrice.validity.rangeUnderflow || accomodationPrice.validity.rangeOverflow) {
       accomodationPrice.style.borderColor = '#ff6d51';
     } else {
@@ -105,15 +85,35 @@ window.form = (function () {
 
   // Checks if all text inputs are filled
   var inputs = document.querySelectorAll('input[type="text"]');
-  var validity = function () {
-    for (var j = 0; j < inputs.length; j++) {
-      if (!inputs[j].valid) {
+  for (var j = 0; j < inputs.length; j++) {
+    var inputsValidity = function () {
+      if (!inputs[j].validity.valid) {
         inputs[j].style.borderColor = '#ff6d51';
+      } else {
+        inputs[j].style.borderColor = '#d9d9d3';
       }
-    }
+    };
+  }
+
+  var validity = function () {
+    accomodationTitle.addEventListener('change', function () {
+      if (!accomodationTitle.validity.valid) {
+        accomodationTitle.style.borderColor = '#ff6d51';
+      } else {
+        accomodationTitle.style.borderColor = '#d9d9d3';
+      }
+    });
+
+    window.general.accomodationAddress.addEventListener('change', function () {
+      if (!window.general.accomodationAddress.validity.valid) {
+        window.general.accomodationAddress.style.borderColor = '#ff6d51';
+      } else {
+        window.general.accomodationAddress.style.borderColor = '#d9d9d3';
+      }
+    });
   };
 
   validity();
 
-  window.general.noticeForm.addEventListener('submit', validity);
+  window.general.noticeForm.addEventListener('submit', inputsValidity);
 })();
