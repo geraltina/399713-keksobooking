@@ -245,6 +245,19 @@
   <button style="left: 200px; top: 400px;" class="map__pin"><img src="img/avatars/user07.png" width="40" height="40" draggable="false"></button>
 </template>
 
+<section class="popup-window  popup-success  visuallyhidden">
+  <h2 class="popup-window__header">Форма успешно отправлена</h2>
+  <p class="popup-window__text">Ваше объявление размещено на сайте, спасибо!</p>
+  <button class="popup-window__close  popup-success__close" type="button">Закрыть окно</button>
+</section>
+
+<section class="popup-window  popup-error  visuallyhidden">
+  <h2 class="popup-window__header">Что-то пошло не так!</h2>
+  <p class="popup-window__text  popup-error__text"></p>
+  <button class="popup-window__close  popup-error__close" type="button">Ok</button>
+</section>
+
+<script src="js/backend.js"></script>
 <script src="js/random.js"></script>
 <script src="js/clear.js"></script>
 <script src="js/general.js"></script>
@@ -252,7 +265,6 @@
 <script src="js/render-card.js"></script>
 <script src="js/show-card.js"></script>
 <script src="js/render-pin.js"></script>
-<script src="js/render-pins.js"></script>
 <script src="js/drag-pin.js"></script>
 <script src="js/map.js"></script>
 <script src="js/synchronize-fields.js"></script>

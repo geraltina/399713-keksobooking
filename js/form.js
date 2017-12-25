@@ -115,5 +115,27 @@ window.form = (function () {
 
   validity();
 
+  var errorHandler = function (errorMessage) {
+    var popupError = document.querySelector('.popup-error');
+    var popupClose = document.querySelector('.popup-error__close');
+    var popupText = document.querySelector('.popup-error__text');
+    popupError.classList.remove('visuallyhidden');
+    popupText.textContent = errorMessage;
+    popupClose.addEventListener('click', function () {
+      popupError.classList.add('visuallyhidden');
+    });
+  };
+
   window.general.noticeForm.addEventListener('submit', inputsValidity);
+  window.general.noticeForm.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(window.general.noticeForm), function () {
+      var popupSuccess = document.querySelector('.popup-success');
+      var popupClose = document.querySelector('.popup-success__close');
+      popupSuccess.classList.remove('visuallyhidden');
+      popupClose.addEventListener('click', function () {
+        popupSuccess.classList.add('visuallyhidden');
+      }, errorHandler);
+    });
+    evt.preventDefault();
+  });
 })();

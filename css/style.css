@@ -497,6 +497,74 @@ textarea:focus
     color: #000;
 }
 
+.popup-window {
+  position: fixed;
+  top: 40vw;
+  z-index: 200;
+  display: none;
+  flex-direction: column;
+  width: 320px;
+  padding-bottom: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: white;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.popup-window__header {
+  margin-top: 39px;
+  margin-bottom: 24px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 30px;
+  color: black;
+}
+
+.popup-window__text {
+  margin-bottom: 41px;
+}
+
+.popup-window__close {
+  display: flex;
+  justify-content: center;
+  width: 298px;
+  height: 62px;
+  margin: 0;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 30px;
+  font-family: "OPen Sans", "Arial", sans-serif;
+  color: white;
+  background-color: #ff5635;
+  border: 2px solid #ff5635;
+  text-align: center;
+  border-radius: 2px;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.1);
+    background-color: #ff5635;
+    border: 2px solid #ff5635;
+  }
+
+  &:active {
+    color: #ff5635;
+    background-color: #ffffff;
+    border: 2px solid #ff5635;
+  }
+
+  &:disabled {
+    color: white;
+    background-color: #e5e5e5;
+    border: 2px solid #e5e5e5;
+  }
+}
+
 .map__filters-container
 {
     width: 100%;
