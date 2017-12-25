@@ -85,15 +85,15 @@ window.form = (function () {
 
   // Checks if all text inputs are filled
   var inputs = document.querySelectorAll('input[type="text"]');
-  for (var j = 0; j < inputs.length; j++) {
-    var inputsValidity = function () {
+  var inputsValidity = function () {
+    for (var j = 0; j < inputs.length; j++) {
       if (!inputs[j].validity.valid) {
         inputs[j].style.borderColor = '#ff6d51';
       } else {
         inputs[j].style.borderColor = '#d9d9d3';
       }
-    };
-  }
+    }
+  };
 
   var validity = function () {
     accomodationTitle.addEventListener('change', function () {

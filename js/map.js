@@ -1,13 +1,13 @@
 'use strict';
 
 window.map = (function () {
-  var successHandler = function () {
-    var adsArray = window.data();
+  var successHandler = function (pins) {
     var fragment = document.createDocumentFragment();
+    var NUMBER_OF_ADS = 10;
     window.general.setupListElement = document.querySelector('.map__pins');
 
-    for (var i = 0; i < adsArray.length; i++) {
-      fragment.appendChild(window.renderPin(adsArray[i]));
+    for (var i = 0; i < NUMBER_OF_ADS; i++) {
+      fragment.appendChild(window.renderPin(pins[i]));
     }
 
     window.general.setupListElement.appendChild(fragment); // inserts pins in markup
