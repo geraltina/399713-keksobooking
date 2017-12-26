@@ -26,20 +26,21 @@ window.renderCard = (function () {
         var featuresList = mapCard.querySelector('.popup__features');
         var featureElement = document.createElement('li');
         featuresList.appendChild(featureElement);
+        featureElement.classList.add('feature');
         featureElement.classList.add('feature--' + arrayElement.offer.features[i]);
       }
 
       mapCard.querySelector('.popup__description').textContent = arrayElement.offer.description;
       mapCard.querySelector('.popup__avatar').src = arrayElement.author.avatar;
 
+      var photosList = mapCard.querySelector('.popup__pictures');
       for (var j = 0; j < arrayElement.offer.photos.length; j++) {
-        var photosList = mapCard.querySelector('.popup__pictures');
-        var photosListElementTemplate = photosList.querySelector('li');
-        var photosListElement = photosListElementTemplate.cloneNode(true);
+        var photosListElement = document.createElement('li');
+        var photo = document.createElement('img');
         photosList.appendChild(photosListElement);
-        var photos = photosList.querySelectorAll('img');
-        photos[j].src = arrayElement.offer.photos[j];
-        photos[j].width = 70;
+        photosListElement.appendChild(photo);
+        photo.src = arrayElement.offer.photos[j];
+        photo.width = 70;
       }
 
       var popupClose = mapCard.querySelector('.popup__close');
