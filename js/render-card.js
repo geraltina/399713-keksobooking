@@ -26,8 +26,7 @@ window.renderCard = (function () {
         var featuresList = mapCard.querySelector('.popup__features');
         var featureElement = document.createElement('li');
         featuresList.appendChild(featureElement);
-        featureElement.classList.add('feature');
-        featureElement.classList.add('feature--' + arrayElement.offer.features[i]);
+        featureElement.classList.add('feature', 'feature--' + arrayElement.offer.features[i]);
       }
 
       mapCard.querySelector('.popup__description').textContent = arrayElement.offer.description;
