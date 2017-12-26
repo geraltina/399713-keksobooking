@@ -25,5 +25,17 @@ window.map = (function () {
   };
 
   window.backend.load(successHandler, errorHandler);
+  window.general.noticeForm.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(window.general.noticeForm), function () {
+      var popupSuccess = document.querySelector('.popup-success');
+      var popupClose = document.querySelector('.popup-success__close');
+      popupSuccess.classList.remove('visuallyhidden');
+      popupClose.addEventListener('click', function () {
+        popupSuccess.classList.add('visuallyhidden');
+      });
+    }, errorHandler);
+
+    evt.preventDefault();
+  });
   window.dragPin();
 })();

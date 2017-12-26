@@ -32,8 +32,8 @@ window.form = (function () {
     element.min = value;
   };
 
-  window.synchronizeFields(arrivalTime, leavingTime, ['12', '13', '14'], ['12', '13', '14'], syncValues);
-  window.synchronizeFields(leavingTime, arrivalTime, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+  window.synchronizeFields(arrivalTime, leavingTime, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
+  window.synchronizeFields(leavingTime, arrivalTime, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
   window.synchronizeFields(accomodationType, accomodationPrice, ['flat', 'bungalo', 'house', 'palace'], ['1000', '0', '5000', '10000'], syncMinValue);
 
   // Sets available options in select with number of guests
@@ -115,27 +115,5 @@ window.form = (function () {
 
   validity();
 
-  var errorHandler = function (errorMessage) {
-    var popupError = document.querySelector('.popup-error');
-    var popupClose = document.querySelector('.popup-error__close');
-    var popupText = document.querySelector('.popup-error__text');
-    popupError.classList.remove('visuallyhidden');
-    popupText.textContent = errorMessage;
-    popupClose.addEventListener('click', function () {
-      popupError.classList.add('visuallyhidden');
-    });
-  };
-
   window.general.noticeForm.addEventListener('submit', inputsValidity);
-  window.general.noticeForm.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(window.general.noticeForm), function () {
-      var popupSuccess = document.querySelector('.popup-success');
-      var popupClose = document.querySelector('.popup-success__close');
-      popupSuccess.classList.remove('visuallyhidden');
-      popupClose.addEventListener('click', function () {
-        popupSuccess.classList.add('visuallyhidden');
-      }, errorHandler);
-    });
-    evt.preventDefault();
-  });
 })();

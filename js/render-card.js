@@ -19,7 +19,7 @@ window.renderCard = (function () {
 
       mapCard.querySelector('h4').textContent = TYPES_OF_HOUSES[arrayElement.offer.type];
 
-      mapCard.querySelector('.popup__rooms-guests').textContent = arrayElement.offer.rooms + ' для ' + arrayElement.offer.guests + ' гостей';
+      mapCard.querySelector('.popup__rooms-guests').textContent = arrayElement.offer.rooms + ' комн. для ' + arrayElement.offer.guests + ' гостей';
       mapCard.querySelector('.popup__checkin-checkout').textContent = 'Заезд после ' + arrayElement.offer.checkin + ', выезд до ' + arrayElement.offer.checkout;
 
       for (var l = 0; l < arrayElement.offer.features.length; l++) {
