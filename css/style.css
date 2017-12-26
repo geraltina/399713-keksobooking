@@ -499,16 +499,17 @@ textarea:focus
 
 .popup-window {
   position: fixed;
-  top: 40vw;
+  top: 12vw;
+  left: calc(50% - 170px);
   z-index: 200;
-  display: none;
   flex-direction: column;
-  width: 320px;
+  width: 340px;
   padding-bottom: 50px;
   padding-left: 20px;
   padding-right: 20px;
   background-color: white;
   box-sizing: border-box;
+  border-radius: 5px;
   text-align: center;
 }
 
