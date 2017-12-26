@@ -19,18 +19,28 @@ window.renderCard = (function () {
 
       mapCard.querySelector('h4').textContent = TYPES_OF_HOUSES[arrayElement.offer.type];
 
-      mapCard.querySelector('.popup__rooms-guests').textContent = arrayElement.offer.rooms + ' для ' + arrayElement.offer.guests + ' гостей';
+      mapCard.querySelector('.popup__rooms-guests').textContent = arrayElement.offer.rooms + ' комн. для ' + arrayElement.offer.guests + ' гостей';
       mapCard.querySelector('.popup__checkin-checkout').textContent = 'Заезд после ' + arrayElement.offer.checkin + ', выезд до ' + arrayElement.offer.checkout;
 
-      for (var l = 0; l < arrayElement.offer.features.length; l++) {
+      for (var i = 0; i < arrayElement.offer.features.length; i++) {
         var featuresList = mapCard.querySelector('.popup__features');
         var featureElement = document.createElement('li');
         featuresList.appendChild(featureElement);
-        featureElement.classList.add('feature--' + arrayElement.offer.features[l]);
+        featureElement.classList.add('feature', 'feature--' + arrayElement.offer.features[i]);
       }
 
       mapCard.querySelector('.popup__description').textContent = arrayElement.offer.description;
       mapCard.querySelector('.popup__avatar').src = arrayElement.author.avatar;
+
+      var photosList = mapCard.querySelector('.popup__pictures');
+      for (var j = 0; j < arrayElement.offer.photos.length; j++) {
+        var photosListElement = document.createElement('li');
+        var photo = document.createElement('img');
+        photosList.appendChild(photosListElement);
+        photosListElement.appendChild(photo);
+        photo.src = arrayElement.offer.photos[j];
+        photo.width = 70;
+      }
 
       var popupClose = mapCard.querySelector('.popup__close');
 

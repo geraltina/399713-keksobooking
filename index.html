@@ -128,14 +128,14 @@
       <fieldset class="form__element form__element--time">
         <label for="timein">Время заезда и выезда</label>
         <select id="timein" name="timein">
-          <option value="12" selected>После 12</option>
-          <option value="13">После 13</option>
-          <option value="14">После 14</option>
+          <option value="12:00" selected>После 12</option>
+          <option value="13:00">После 13</option>
+          <option value="14:00">После 14</option>
         </select>
         <select id="timeout" name="timeout" title="Time to go out">
-          <option value="12" selected>Выезд до 12</option>
-          <option value="13">Выезд до 13</option>
-          <option value="14">Выезд до 14</option>
+          <option value="12:00" selected>Выезд до 12</option>
+          <option value="13:00">Выезд до 13</option>
+          <option value="14:00">Выезд до 14</option>
         </select>
       </fieldset>
 
@@ -229,22 +229,28 @@
     <p class="popup__rooms-guests">2 комнаты для 3 гостей</p>
     <p class="popup__checkin-checkout">Заезд после 14:00, выезд до 10:00</p>
     <ul class="popup__features">
-      <li class="feature feature--wifi"></li>
-      <li class="feature feature--dishwasher"></li>
-      <li class="feature feature--parking"></li>
-      <li class="feature feature--washer"></li>
-      <li class="feature feature--elevator"></li>
-      <li class="feature feature--conditioner"></li>
     </ul>
     <p class="popup__description">Великолепная квартира-студия в центре Токио. Подходит как туристам, так и бизнесменам. Квартира полностью укомплектована и недавно отремонтирована.</p>
     <ul class="popup__pictures">
-      <li><img src=""></li>
     </ul>
   </article>
 
   <button style="left: 200px; top: 400px;" class="map__pin"><img src="img/avatars/user07.png" width="40" height="40" draggable="false"></button>
 </template>
 
+<section class="popup-window  popup-success  visuallyhidden">
+  <h2 class="popup-window__header">Форма успешно отправлена</h2>
+  <p class="popup-window__text">Ваше объявление размещено на сайте, спасибо!</p>
+  <button class="popup-window__close  popup-success__close" type="button">Закрыть окно</button>
+</section>
+
+<section class="popup-window  popup-error  visuallyhidden">
+  <h2 class="popup-window__header">Что-то пошло не так!</h2>
+  <p class="popup-window__text  popup-error__text"></p>
+  <button class="popup-window__close  popup-error__close" type="button">Ok</button>
+</section>
+
+<script src="js/backend.js"></script>
 <script src="js/random.js"></script>
 <script src="js/clear.js"></script>
 <script src="js/general.js"></script>
@@ -252,7 +258,6 @@
 <script src="js/render-card.js"></script>
 <script src="js/show-card.js"></script>
 <script src="js/render-pin.js"></script>
-<script src="js/render-pins.js"></script>
 <script src="js/drag-pin.js"></script>
 <script src="js/map.js"></script>
 <script src="js/synchronize-fields.js"></script>

@@ -32,8 +32,8 @@ window.form = (function () {
     element.min = value;
   };
 
-  window.synchronizeFields(arrivalTime, leavingTime, ['12', '13', '14'], ['12', '13', '14'], syncValues);
-  window.synchronizeFields(leavingTime, arrivalTime, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+  window.synchronizeFields(arrivalTime, leavingTime, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
+  window.synchronizeFields(leavingTime, arrivalTime, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
   window.synchronizeFields(accomodationType, accomodationPrice, ['flat', 'bungalo', 'house', 'palace'], ['1000', '0', '5000', '10000'], syncMinValue);
 
   // Sets available options in select with number of guests
@@ -85,15 +85,15 @@ window.form = (function () {
 
   // Checks if all text inputs are filled
   var inputs = document.querySelectorAll('input[type="text"]');
-  for (var j = 0; j < inputs.length; j++) {
-    var inputsValidity = function () {
+  var inputsValidity = function () {
+    for (var j = 0; j < inputs.length; j++) {
       if (!inputs[j].validity.valid) {
         inputs[j].style.borderColor = '#ff6d51';
       } else {
         inputs[j].style.borderColor = '#d9d9d3';
       }
-    };
-  }
+    }
+  };
 
   var validity = function () {
     accomodationTitle.addEventListener('change', function () {
