@@ -1,16 +1,32 @@
 'use strict';
 
 window.map = (function () {
+  window.general.setupListElement = document.querySelector('.map__pins');
+  var ads = [];
+  var filter = document.querySelector('.map__filters');
+  var filterHouseType = filter.querySelector('select[name="housing-type"]');
+  var filterHousePrice = filter.querySelector('select[name="housing-price"]');
+  var filterHouseRooms = filter.querySelector('select[name="housing-rooms"]');
+  var filterHouseGuests = filter.querySelector('select[name="housing-guests"]');
+  var filterHouseFeatures = filter.querySelector('#housing-features');
+  var setAdsFilter = function () {
+    var getHouseType = ads.filter(function (it) {
+      return it.offer.type === filterHouseType.value;
+    });
+    var filteredPins = getHouseType;
+    var uniquePins = filteredPins.filter(function (it, i) {
+      return filteredPins.indexOf(it) === i;
+    });
+    window.render(uniquePins);
+  };
+
+  var changeTypeFilter = filterHouseType.addEventListener('change', function () {
+    setAdsFilter();
+  });
+
   var successHandler = function (pins) {
-    var fragment = document.createDocumentFragment();
-    var NUMBER_OF_ADS = 10;
-    window.general.setupListElement = document.querySelector('.map__pins');
-
-    for (var i = 0; i < NUMBER_OF_ADS; i++) {
-      fragment.appendChild(window.renderPin(pins[i]));
-    }
-
-    window.general.setupListElement.appendChild(fragment); // inserts pins in markup
+    ads = pins;
+    setAdsFilter();
   };
 
   var errorHandler = function (errorMessage) {
