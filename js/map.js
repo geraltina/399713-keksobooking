@@ -14,60 +14,59 @@ window.map = (function () {
     var check = function (it) {
       var isAny = function (filterValue, offerValue) {
         if (filterValue !== 'any') {
-          if (offerValue !== +(filterValue)) {
-            return false;
-          } else {
-            return true;
-          }
+          return String(offerValue) === filterValue;
         } else {
           return true;
         }
       };
 
-      isAny(filterHouseType.value, it.offer.type); // checks type of house
-      isAny(filterHouseRooms.value, it.offer.rooms); // checks number of rooms in the house
-      isAny(filterHouseGuests.value, it.offer.guests); // checks number of guests in the house
+      var result = true;
+      result = result && isAny(filterHouseType.value, it.offer.type); // checks type of house
+      result = result && isAny(filterHouseRooms.value, it.offer.rooms); // checks number of rooms in the house
+      result = result && isAny(filterHouseGuests.value, it.offer.guests); // checks number of guests in the house
 
-      switch (filterHousePrice.value) { // checks price of the house
-        case 'low':
-          if (it.offer.price > 10000) {
-            return false;
-          }
-          break;
-        case 'middle':
-          if (it.offer.price < 10000 && it.offer.price > 50000) {
-            return false;
-          }
-          break;
-        case 'high':
-          if (it.offer.price < 50000) {
-            return false;
-          }
-          break;
-        default:
-          return true;
-      }
-
-      for (var x = 0; x < featureCheckboxes.length; x++) { // checks features
-        if (featureCheckboxes[x].checked) {
-          if (it.offer.features[x] !== featureCheckboxes[x]) {
-            return false;
-          } else {
-            return true;
-          }
-        } else {
-          return true;
+      var filterPrice = function () {
+        switch (filterHousePrice.value) { // checks price of the house
+          case 'low':
+            if (it.offer.price > 10000) {
+              return false;
+            }
+            break;
+          case 'middle':
+            if (it.offer.price < 10000 && it.offer.price > 50000) {
+              return false;
+            }
+            break;
+          case 'high':
+            if (it.offer.price < 50000) {
+              return false;
+            }
+            break;
         }
-      }
 
-      return true;
+        return true;
+      };
+
+      result = result && filterPrice();
+
+      var isChecked = function () {
+        for (var x = 0; x < featureCheckboxes.length; x++) { // checks features
+          if (featureCheckboxes[x].checked) {
+            if (!it.offer.features.includes(it.offer.features[x])) {
+              return false;
+            }
+          }
+        }
+        return true;
+      };
+
+      result = result && isChecked();
+
+      return result;
     };
 
     var checkedOffers = ads.filter(check);
-    var uniquePins = checkedOffers.filter(function (it, i) {
-      return checkedOffers.indexOf(it) === i;
-    });
-    var filteredOffers = uniquePins.slice(0, 5);
+    var filteredOffers = checkedOffers.slice(0, 5);
 
     window.render(filteredOffers);
   };
@@ -81,15 +80,14 @@ window.map = (function () {
     }
   };
 
+  var mapFilter = document.querySelector('.map__filters');
+  mapFilter.addEventListener('change', function () {
+    removePins(); // removes pins before filtering
+    setAdsFilter(); // filters pins
+  });
+
   var successHandler = function (pins) {
     ads = pins;
-    var mapFilters = document.querySelectorAll('.map__filter');
-    for (var x = 0; x < mapFilters.length; x++) {
-      mapFilters[x].addEventListener('change', function () {
-        removePins();
-        setAdsFilter();
-      });
-    }
     setAdsFilter();
   };
 
