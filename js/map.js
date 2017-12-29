@@ -32,13 +32,15 @@ window.map = (function () {
               return false;
             }
             break;
-          case 'middle':
-            if (it.offer.price < 10000 && it.offer.price > 50000) {
+          case 'high':
+            if (it.offer.price < 50000) {
               return false;
             }
             break;
-          case 'high':
-            if (it.offer.price < 50000) {
+          case 'middle':
+            if (it.offer.price < 10000) {
+              return false;
+            } else if (it.offer.price > 50000) {
               return false;
             }
             break;
@@ -50,9 +52,10 @@ window.map = (function () {
       result = result && filterPrice();
 
       var isChecked = function () {
-        for (var x = 0; x < featureCheckboxes.length; x++) { // checks features
-          if (featureCheckboxes[x].checked) {
-            if (!it.offer.features.includes(it.offer.features[x])) {
+        var featureCheckboxesArr = Array.from(featureCheckboxes);
+        for (var x = 0; x < featureCheckboxesArr.length; x++) { // checks features
+          if (featureCheckboxesArr[x].checked) {
+            if (!it.offer.features.includes(featureCheckboxesArr[x].value)) {
               return false;
             }
           }
