@@ -29,7 +29,7 @@
           error = 'Ничего не найдено';
           break;
         case TIMEOUT:
-          error = 'Запрос не успел выполниться за ' + xhr.timeout + 'мс';
+          error = 'Запрос не успел выполниться за ' + xhr.timeout + ' мс';
           break;
 
         default:
