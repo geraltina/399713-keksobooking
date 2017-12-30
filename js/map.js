@@ -96,7 +96,7 @@ window.map = (function () {
   // if everything is successfully loaded - sets filters
   var successHandler = function (pins) {
     ads = pins;
-    window.debounce(setAdsFilter);
+    setAdsFilter();
   };
 
   // if smth is wrong - shows error message
