@@ -1,7 +1,7 @@
 'use strict';
 
 window.dragPin = function () {
-  var pinHandle = document.querySelector('.map__pin--main img');
+  var pinHandle = document.querySelector('.map__pin--main');
   pinHandle.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 

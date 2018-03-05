@@ -112,7 +112,9 @@ window.map = (function () {
   };
 
   // loads pins or shows error message
-  window.backend.load(successHandler, errorHandler);
+  window.general.mapPinMain.addEventListener('mouseup', function () {
+    window.backend.load(successHandler, errorHandler);
+  });
 
   // saves form data after submit and shows success message
   window.general.noticeForm.addEventListener('submit', function (evt) {

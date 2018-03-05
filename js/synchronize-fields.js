@@ -1,9 +1,9 @@
 'use strict';
 
-window.synchronizeFields = function (selectOne, selectTwo, arrayOne, arrayTwo, synchronization) {
-  selectOne.addEventListener('change', function () {
-    var option = selectOne.value;
+window.synchronizeFields = function (fieldOne, fieldTwo, arrayOne, arrayTwo, synchronize) {
+  fieldOne.addEventListener('change', function () {
+    var option = fieldOne.value;
     var elemIndex = arrayOne.indexOf(option);
-    synchronization(selectTwo, arrayTwo[elemIndex]);
+    synchronize(fieldTwo, arrayTwo[elemIndex]);
   });
 };

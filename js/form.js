@@ -6,19 +6,8 @@ window.form = (function () {
   var accomodationTitle = window.general.noticeForm.querySelector('#title');
   var accomodationType = window.general.noticeForm.querySelector('#type');
   var accomodationPrice = window.general.noticeForm.querySelector('#price');
-  var accomodationPrices = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 10000
-  };
   var roomNumber = window.general.noticeForm.querySelector('#room_number');
   var capacity = window.general.noticeForm.querySelector('#capacity');
-
-  // Changes price depending on accomodation type
-  accomodationType.addEventListener('change', function () {
-    accomodationPrice.value = accomodationPrices[accomodationType.value];
-  });
 
   // Changes first selected option
   // when second selected option is changed -
@@ -95,9 +84,9 @@ window.form = (function () {
     }
   };
 
-  var validity = function () {
+  var validate = function () {
     accomodationTitle.addEventListener('change', function () {
-      if (!accomodationTitle.validity.valid) {
+      if (!accomodationTitle.validate.valid) {
         accomodationTitle.style.borderColor = '#ff6d51';
       } else {
         accomodationTitle.style.borderColor = '#d9d9d3';
