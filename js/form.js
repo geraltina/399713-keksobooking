@@ -105,7 +105,7 @@
       });
     };
 
-    validity();
+    validate();
 
     window.general.noticeForm.addEventListener('submit', inputsValidity);
   })();

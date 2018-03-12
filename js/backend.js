@@ -13,31 +13,10 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      var error;
-      switch (xhr.status) {
-        case SUCCESS_CODE:
-          onLoad(xhr.response);
-          break;
-
-        case BAD_REQUEST:
-          error = 'Неверный запрос';
-          break;
-        case UNAUTHORIZED:
-          error = 'Пользователь не авторизован';
-          break;
-        case NOT_FOUND:
-          error = 'Ничего не найдено';
-          break;
-        case TIMEOUT:
-          error = 'Запрос не успел выполниться за ' + xhr.timeout + ' мс';
-          break;
-
-        default:
-          error = 'Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText;
-      }
-
-      if (error) {
-        onError(error);
+      if (xhr.status === SUCCESS_CODE) {
+        onLoad(xhr.response);
+      } else {
+        onError('Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
@@ -61,6 +40,7 @@
       xhr.open('POST', SERVER_URL);
       xhr.send(data);
     },
+
     load: function (onLoad, onError) {
       var xhr = setup(onLoad, onError);
 

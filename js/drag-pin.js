@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.dragPin = (function () {
+  window.dragPin = function () {
     var pinHandle = document.querySelector('.map__pin--main');
     pinHandle.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
@@ -44,5 +44,5 @@
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
-  })();
+  };
 })();
